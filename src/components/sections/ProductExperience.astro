@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import { cyprusImageAssets } from '../../data/cyprus-assets';
+import { productExperience } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="product-experience section"
+  id="product-experience"
+  aria-labelledby="product-experience-heading"
+>
+  <SectionHeading
+    eyebrow="Product experience"
+    title="From fragmented information to an actionable plan"
+    id="product-experience-heading"
+  />
+
+  <div class="product-experience__context">
+    {
+      [productExperience.problem, productExperience.solution].map((item) => (
+        <article class="product-experience__context-item">
+          <h3>{item.label}</h3>
+          {item.copy.split('\n\n').map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="product-experience__flow-heading">
+    <h3>{productExperience.flow.title}</h3>
+    <p>{productExperience.flow.description}</p>
+  </div>
+
+  <div
+    class="flow-gallery"
+    tabindex="0"
+    aria-label="Buy a used car product flow"
+  >
+    {
+      productExperience.flow.steps.map((step) => (
+        <article class="flow-gallery__item">
+          <div class="flow-gallery__copy">
+            <p class="flow-gallery__number" aria-hidden="true">
+              {step.number}
+            </p>
+            <h4>{step.title}</h4>
+            <p>{step.description}</p>
+          </div>
+          <figure class="flow-gallery__figure">
+            <Image
+              src={cyprusImageAssets[step.image]}
+              alt={step.alt}
+              widths={[320, 480, 720]}
+              sizes="(max-width: 640px) 280px, (max-width: 1024px) 30vw, 360px"
+              loading="lazy"
+            />
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+  <p class="gallery-hint" aria-hidden="true">Swipe to follow each step →</p>
+
+  <div class="capabilities" aria-label="Product capabilities">
+    {
+      productExperience.capabilities.map((capability) => (
+        <article class="capabilities__card">
+          <h3>{capability.title}</h3>
+          <p>{capability.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

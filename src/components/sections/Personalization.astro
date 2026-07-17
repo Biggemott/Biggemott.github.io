@@ -1,0 +1,69 @@
+---
+import { Image } from 'astro:assets';
+import { cyprusImageAssets } from '../../data/cyprus-assets';
+import { personalization } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="personalization section"
+  id="personalization"
+  aria-labelledby="personalization-heading"
+>
+  <div class="personalization__intro">
+    <SectionHeading
+      eyebrow="Personalization"
+      title="Questionnaire-based personalization"
+      id="personalization-heading"
+    />
+    <p class="personalization__lead">{personalization.intro}</p>
+    <p class="personalization__explanation">{personalization.explanation}</p>
+  </div>
+
+  <div
+    class="personalization__metrics"
+    aria-label="Personalization complexity metrics"
+  >
+    {
+      personalization.metrics.map(([value, label]) => (
+        <div
+          class:list={[
+            'personalization__metric',
+            { 'personalization__metric--primary': value === '682' },
+          ]}
+        >
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <figure class="outcomes">
+    <div
+      class="outcomes__gallery"
+      tabindex="0"
+      aria-label="First steps after arrival checklist outcomes"
+    >
+      {
+        personalization.outcomes.map((outcome) => (
+          <div class="outcomes__item">
+            <p>{outcome.label}</p>
+            <Image
+              src={cyprusImageAssets[outcome.image]}
+              alt={outcome.alt}
+              widths={[320, 480, 720]}
+              sizes="(max-width: 640px) 280px, (max-width: 1024px) 38vw, 440px"
+              loading="lazy"
+            />
+          </div>
+        ))
+      }
+    </div>
+    <figcaption>{personalization.caption}</figcaption>
+  </figure>
+  <p class="gallery-hint" aria-hidden="true">Swipe to compare outcomes →</p>
+  <p class="personalization__supporting-line">
+    {personalization.supportingLine}
+  </p>
+</section>
