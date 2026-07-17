@@ -1,0 +1,61 @@
+---
+import { qualityWorkflow } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="quality-workflow section"
+  id="quality-workflow"
+  aria-labelledby="quality-workflow-heading"
+>
+  <SectionHeading
+    eyebrow="Quality and delivery"
+    title="Validation at every stage of implementation"
+    id="quality-workflow-heading"
+  />
+  <p class="quality-workflow__intro prose">{qualityWorkflow.intro}</p>
+
+  <div class="quality-workflow__quality" aria-labelledby="quality-heading">
+    <div class="quality-workflow__subheading">
+      <h3 id="quality-heading">Quality and validation</h3>
+      <p>{qualityWorkflow.qualityIntro}</p>
+    </div>
+    <div class="quality-grid">
+      {
+        qualityWorkflow.qualityAreas.map((area) => (
+          <article class="quality-grid__item">
+            <h4>{area.title}</h4>
+            <p>{area.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+
+  <div
+    class="quality-workflow__workflow"
+    id="ai-workflow"
+    aria-labelledby="workflow-heading"
+  >
+    <div class="quality-workflow__subheading">
+      <h3 id="workflow-heading">AI-assisted engineering workflow</h3>
+      <p>{qualityWorkflow.workflowIntro}</p>
+    </div>
+    <ol class="workflow-steps">
+      {
+        qualityWorkflow.workflowSteps.map((step, index) => (
+          <li class="workflow-steps__item">
+            <span class="workflow-steps__number" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h4>{step.title}</h4>
+              <p>{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="workflow-ownership">{qualityWorkflow.ownershipStatement}</p>
+  </div>
+</section>

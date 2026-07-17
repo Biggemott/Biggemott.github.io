@@ -45,6 +45,18 @@ export const captureManifest: Capture[] = [
     offsetBelowHeader: 84,
   },
   {
+    filename: 'desktop/ai-workflow.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#ai-workflow',
+    offsetBelowHeader: 84,
+  },
+  {
+    filename: 'desktop/release-status.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#release-status',
+    offsetBelowHeader: 84,
+  },
+  {
     filename: 'mobile-390/full-page.png',
     viewport: { width: 390, height: 844 },
     fullPage: true,
@@ -75,6 +87,18 @@ export const captureManifest: Capture[] = [
     filename: 'mobile-390/architecture.png',
     viewport: { width: 390, height: 844 },
     target: '#architecture .section-heading',
+    offsetBelowHeader: 26,
+  },
+  {
+    filename: 'mobile-390/ai-workflow.png',
+    viewport: { width: 390, height: 844 },
+    target: '#ai-workflow',
+    offsetBelowHeader: 26,
+  },
+  {
+    filename: 'mobile-390/release-status.png',
+    viewport: { width: 390, height: 844 },
+    target: '#release-status',
     offsetBelowHeader: 26,
   },
   {

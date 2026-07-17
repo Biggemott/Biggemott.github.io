@@ -22,6 +22,8 @@ const sections = [
   '#product-completeness',
   '#ownership',
   '#architecture',
+  '#quality-workflow',
+  '#release-status',
 ];
 
 for (const viewport of viewports) {
@@ -50,6 +52,8 @@ for (const viewport of viewports) {
       '#product-completeness h2',
       '#ownership h2',
       '#architecture h2',
+      '#quality-workflow h2',
+      '#release-status h2',
     ]) {
       const heading = page.locator(selector);
       await expectVisible(heading);

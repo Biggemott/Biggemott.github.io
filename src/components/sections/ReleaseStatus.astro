@@ -1,0 +1,43 @@
+---
+import { releaseStatus } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="release-status section"
+  id="release-status"
+  aria-labelledby="release-status-heading"
+>
+  <SectionHeading
+    eyebrow="Release status"
+    title="Android release candidate, iOS ready for final validation"
+    id="release-status-heading"
+  />
+  <p class="release-status__intro prose">{releaseStatus.intro}</p>
+  <div class="release-status__platforms">
+    {
+      releaseStatus.platforms.map((platform) => (
+        <article
+          class:list={[
+            'release-panel',
+            { 'release-panel--android': platform.platform === 'Android' },
+          ]}
+          aria-labelledby={`${platform.platform.toLowerCase()}-release-heading`}
+        >
+          <div class="release-panel__header">
+            <h3 id={`${platform.platform.toLowerCase()}-release-heading`}>
+              {platform.platform}
+            </h3>
+            <p class="release-panel__label">{platform.label}</p>
+          </div>
+          <p class="release-panel__description">{platform.description}</p>
+          <ul>
+            {platform.facts.map((fact) => (
+              <li>{fact}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>

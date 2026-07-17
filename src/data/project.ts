@@ -54,6 +54,23 @@ interface TechnicalHighlight {
   description: string;
 }
 
+interface QualityArea {
+  title: string;
+  description: string;
+}
+
+interface EngineeringWorkflowStep {
+  title: string;
+  description: string;
+}
+
+interface PlatformReleaseStatus {
+  platform: string;
+  label: string;
+  description: string;
+  facts: readonly string[];
+}
+
 export const featuredProject = {
   name: 'Cyprus Step-by-Step',
   technology:
@@ -349,4 +366,103 @@ export const technicalArchitecture = {
         'Notification destinations use typed navigation data and resolve through safe fallbacks when a scenario or step is no longer valid.',
     },
   ] satisfies readonly TechnicalHighlight[],
+} as const;
+
+export const qualityWorkflow = {
+  intro:
+    'The product combines automated checks, manual platform validation, content review and a structured AI-assisted engineering workflow.',
+  qualityIntro:
+    'Validation covered shared product logic, platform behavior, localized content and release preparation rather than relying on a single final testing pass.',
+  qualityAreas: [
+    {
+      title: 'Automated product logic',
+      description:
+        'Around 40 test files exercise shared parsing, questionnaire and checklist behavior, persistence and workflow logic without claiming complete coverage.',
+    },
+    {
+      title: 'Android device validation',
+      description:
+        'Core flows, navigation, local persistence, reminders and release behavior were manually exercised on a physical Android device.',
+    },
+    {
+      title: 'iOS simulator validation',
+      description:
+        'The native shell, shared Compose experience, navigation and notification integration were checked in the iOS simulator.',
+    },
+    {
+      title: 'Content and localization review',
+      description:
+        'All 18 procedures were reviewed across English, Russian and Greek, including conditional paths and supporting source links.',
+    },
+  ] satisfies readonly QualityArea[],
+  workflowIntro:
+    'Each implementation slice started from a defined product requirement and ended with human review and real-device or simulator validation.',
+  workflowSteps: [
+    {
+      title: 'Product requirement',
+      description:
+        'Define the user problem, expected behavior and product constraints.',
+    },
+    {
+      title: 'Structured specification and acceptance criteria',
+      description:
+        'Turn the requirement into an explicit, reviewable implementation scope.',
+    },
+    {
+      title: 'Scoped Codex implementation',
+      description:
+        'Use Codex to accelerate a bounded change rather than delegate open-ended product decisions.',
+    },
+    {
+      title: 'Build and automated tests',
+      description:
+        'Run formatting, static checks, builds and relevant automated verification.',
+    },
+    {
+      title: 'Independent agent review',
+      description:
+        'Use a separate review pass to challenge assumptions, regressions and missed requirements.',
+    },
+    {
+      title: 'Human diff and architecture review',
+      description:
+        'Review the actual changes, architecture boundaries and long-term maintenance impact.',
+    },
+    {
+      title: 'Manual device or simulator validation',
+      description:
+        'Confirm the final behavior in the real Android app and the iOS simulator shell.',
+    },
+  ] satisfies readonly EngineeringWorkflowStep[],
+  ownershipStatement:
+    'Codex accelerated implementation, but product decisions, architecture, quality gates and release ownership remained mine.',
+} as const;
+
+export const releaseStatus = {
+  intro:
+    'Android is the first release target. The shared Kotlin Multiplatform product and native iOS shell are ready for final physical-device validation and release preparation.',
+  platforms: [
+    {
+      platform: 'Android',
+      label: 'Submitted for review',
+      description:
+        'Functional and content testing were completed on an Android device. The signed release build was prepared and submitted to Google Play for review.',
+      facts: [
+        'Primary release target',
+        'Physical-device validation',
+        'Store listing and signing completed',
+      ],
+    },
+    {
+      platform: 'iOS',
+      label: 'Ready for final validation',
+      description:
+        'The native SwiftUI shell and shared Compose experience were validated in the iOS simulator. Next steps are final physical-device validation and platform release preparation.',
+      facts: [
+        'Native iOS application shell',
+        'Shared Compose experience validated',
+        'Final platform validation next',
+      ],
+    },
+  ] satisfies readonly PlatformReleaseStatus[],
 } as const;
