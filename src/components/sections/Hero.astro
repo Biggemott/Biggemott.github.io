@@ -1,0 +1,49 @@
+---
+import { site } from '../../data/site';
+import ButtonLink from '../ui/ButtonLink.astro';
+import Metric from '../ui/Metric.astro';
+
+const summaryCards = [
+  ['13+ years', 'Android engineering'],
+  ['Hands-on Lead', '60–80% coding in lead roles'],
+  ['KMP + Compose', 'Shared Android/iOS product'],
+  ['AOSP', 'Platform and device engineering'],
+] as const;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__content">
+    <p class="eyebrow">Android engineering · Mobile leadership</p>
+    <h1 id="hero-title">{site.name}</h1>
+    <p class="hero__role">{site.title}</p>
+    <p class="hero__statement">
+      Hands-on Android engineer and technical leader with 13+ years of
+      experience building and evolving mobile products — from AOSP-based devices
+      and fintech platforms to real-time media applications and Kotlin
+      Multiplatform products.
+    </p>
+    <p class="hero__areas">
+      Kotlin · Jetpack Compose · Mobile Architecture · Kotlin Multiplatform ·
+      Technical Leadership
+    </p>
+    <p class="hero__location">
+      Based in Limassol, Cyprus · Open to remote and hybrid opportunities
+    </p>
+    <div class="hero__actions">
+      <ButtonLink href="#project">View featured project</ButtonLink>
+      <ButtonLink href={site.linkedin} variant="secondary" external
+        >LinkedIn</ButtonLink
+      >
+      <ButtonLink href={`mailto:${site.email}`} variant="secondary"
+        >Contact</ButtonLink
+      >
+    </div>
+  </div>
+  <div class="hero__cards" aria-label="Career summary">
+    {
+      summaryCards.map(([value, label]) => (
+        <Metric value={value} label={label} />
+      ))
+    }
+  </div>
+</section>

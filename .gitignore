@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+_input/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import featureGraphic from '../../assets/images/cyprus/cover/cyprus-feature-graphic.png';
+import { cyprusImageAssets } from '../../data/cyprus-assets';
+import { featuredProject } from '../../data/project';
+import Metric from '../ui/Metric.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+const assetCount = Object.keys(cyprusImageAssets).length + 1;
+---
+
+<section
+  class="project section"
+  id="project"
+  aria-labelledby="project-heading"
+  data-image-assets={assetCount}
+>
+  <div class="project__intro">
+    <SectionHeading eyebrow="Featured project" title={featuredProject.name} />
+    <p class="project__technology">{featuredProject.technology}</p>
+    <p class="project__description">{featuredProject.description}</p>
+    <p>{featuredProject.audience}</p>
+  </div>
+  <div class="project__metrics" aria-label="Project metrics">
+    {
+      featuredProject.metrics.map(([value, label]) => (
+        <Metric value={value} label={label} />
+      ))
+    }
+  </div>
+  <div
+    class="project__graphic"
+    tabindex="0"
+    aria-label="Scrollable product overview on small screens"
+  >
+    <Image
+      src={featureGraphic}
+      alt="Cyprus Step-by-Step product overview showing the home screen, a personalized checklist and step details."
+      widths={[640, 960, 1280, 1600]}
+      sizes="(max-width: 699px) 960px, (max-width: 1200px) 90vw, 1180px"
+      loading="lazy"
+    />
+  </div>
+  <p class="project__swipe-hint" aria-hidden="true">
+    Swipe to view the full product overview →
+  </p>
+  <div class="project__notes prose">
+    <p>{featuredProject.scope}</p>
+    <p>{featuredProject.ownership}</p>
+  </div>
+</section>

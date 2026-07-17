@@ -1,0 +1,58 @@
+---
+const navigation = [
+  { href: '#about', label: 'About' },
+  { href: '#project', label: 'Project' },
+  { href: 'mailto:biggemott@gmail.com', label: 'Contact' },
+];
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a
+      class="site-header__brand"
+      href="#main-content"
+      aria-label="Skip to main content"
+    >
+      <span class="site-header__brand-full">Nikita Glazkov</span>
+      <span class="site-header__brand-short" aria-hidden="true">NG</span>
+    </a>
+    <button
+      class="site-header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+    >
+      <span class="sr-only">Toggle navigation</span>
+      <span aria-hidden="true">Menu</span>
+    </button>
+    <nav
+      class="site-header__nav"
+      id="primary-navigation"
+      aria-label="Primary navigation"
+    >
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector<HTMLButtonElement>(
+    '.site-header__toggle',
+  );
+  const navigation = document.querySelector<HTMLElement>('.site-header__nav');
+
+  const closeMenu = () => {
+    header?.classList.remove('is-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = header?.classList.toggle('is-open') ?? false;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navigation?.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a')) closeMenu();
+  });
+</script>
