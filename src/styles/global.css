@@ -392,8 +392,7 @@ h1 {
   font-size: 0.88rem;
   line-height: 1.45;
 }
-.flow-gallery__figure,
-.outcomes__item {
+.flow-gallery__figure {
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--color-border);
@@ -401,8 +400,7 @@ h1 {
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
 }
-.flow-gallery__figure img,
-.outcomes__item img {
+.flow-gallery__figure img {
   display: block;
   width: 100%;
   height: auto;
@@ -491,13 +489,32 @@ h1 {
   max-width: 52rem;
   margin: 0 auto;
 }
-.outcomes__item > p {
-  margin: 0;
-  padding: 0.7rem 1rem;
-  border-bottom: 1px solid var(--color-border);
+.outcomes__item {
+  min-width: 0;
+}
+.outcomes__label {
+  width: fit-content;
+  margin: 0 0 0.7rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface-warm);
   color: var(--color-accent-text);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 800;
+}
+.outcomes__figure {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-image);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.outcomes__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .outcomes figcaption {
   max-width: 42rem;
@@ -507,6 +524,170 @@ h1 {
   text-align: center;
 }
 .personalization__supporting-line {
+  margin-top: 2.5rem;
+}
+
+.cross-platform__overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(17rem, 0.8fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: start;
+}
+.cross-platform__copy p + p,
+.localization__copy p + p {
+  margin-top: 1rem;
+}
+.cross-platform__scope {
+  padding: 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-surface);
+}
+.cross-platform__scope-label,
+.platform-boundary > p {
+  margin: 0 0 0.7rem;
+  color: var(--color-accent-text);
+  font-size: 0.8rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cross-platform__scope ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.cross-platform__boundaries {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  max-width: 52rem;
+  margin-top: 2.5rem;
+}
+.platform-boundary {
+  padding: 1.15rem 1.2rem;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface-warm);
+}
+.platform-boundary > p {
+  margin-bottom: 0.4rem;
+}
+.platform-boundary span,
+.cross-platform__validation-note {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.cross-platform__validation-note {
+  max-width: 48rem;
+  margin: 1rem 0 0;
+}
+.platform-comparison {
+  max-width: 56rem;
+  margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
+}
+.platform-comparison__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 4vw, 3rem);
+}
+.platform-comparison__item,
+.localization__item {
+  min-width: 0;
+}
+.platform-comparison__item > p,
+.localization__item > p {
+  margin: 0 0 0.6rem;
+  color: var(--color-accent-text);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.platform-comparison__image,
+.localization__image,
+.completeness-gallery__figure {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-image);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+.platform-comparison__image img,
+.localization__image img,
+.completeness-gallery__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.platform-comparison figcaption,
+.localization__examples figcaption {
+  max-width: 42rem;
+  margin: 1.25rem auto 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+}
+.localization {
+  margin-top: clamp(4.5rem, 9vw, 7.5rem);
+  padding-top: clamp(3.5rem, 7vw, 5.5rem);
+  border-top: 1px solid var(--color-border);
+}
+.localization h3 {
+  max-width: 26rem;
+  margin: 0 0 1rem;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+}
+.localization__copy {
+  max-width: 46rem;
+}
+.localization__examples {
+  margin: 2.5rem 0 0;
+}
+.localization__gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.product-completeness__intro {
+  max-width: 48rem;
+}
+.completeness-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.completeness-gallery__item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.completeness-gallery__copy {
+  min-height: 8rem;
+}
+.completeness-gallery__copy h3 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+.completeness-gallery__copy p,
+.product-completeness__supporting-line {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.completeness-gallery__figure {
+  margin: 0;
+}
+.product-completeness__supporting-line {
+  max-width: 48rem;
   margin-top: 2.5rem;
 }
 
@@ -544,7 +725,9 @@ h1 {
     grid-template-columns: repeat(2, 1fr);
   }
   .capabilities,
-  .personalization__metrics {
+  .personalization__metrics,
+  .localization__gallery,
+  .completeness-gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -641,6 +824,49 @@ h1 {
     grid-template-columns: 1fr;
     gap: 2rem;
     margin-top: 2rem;
+  }
+  .cross-platform__overview,
+  .cross-platform__boundaries {
+    grid-template-columns: 1fr;
+  }
+  .cross-platform__boundaries {
+    gap: 0.65rem;
+    margin-top: 2rem;
+  }
+  .platform-comparison__gallery,
+  .localization__gallery,
+  .completeness-gallery {
+    display: flex;
+    gap: 1rem;
+    margin-right: calc((100vw - 100%) / -2);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    padding-right: 1rem;
+  }
+  .platform-comparison__item,
+  .localization__item,
+  .completeness-gallery__item {
+    flex: 0 0 min(17.5rem, 78vw);
+    scroll-snap-align: start;
+  }
+  .platform-comparison figcaption,
+  .localization__examples figcaption {
+    margin: 1rem 0 0;
+    text-align: left;
+  }
+  .localization {
+    margin-top: 4.5rem;
+    padding-top: 3.5rem;
+  }
+  .localization__examples {
+    margin-top: 2rem;
+  }
+  .completeness-gallery {
+    margin-top: 2rem;
+  }
+  .completeness-gallery__copy {
+    min-height: 7.5rem;
   }
   .product-experience__flow-heading {
     margin-top: 3.5rem;

@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import { cyprusImageAssets } from '../../data/cyprus-assets';
+import { productCompleteness } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="product-completeness section"
+  id="product-completeness"
+  aria-labelledby="product-completeness-heading"
+>
+  <SectionHeading
+    eyebrow="Product completeness"
+    title="Built for real procedures, not one-session browsing"
+    id="product-completeness-heading"
+  />
+  <p class="product-completeness__intro prose">{productCompleteness.intro}</p>
+
+  <div
+    class="completeness-gallery"
+    tabindex="0"
+    aria-label="Product completeness examples"
+  >
+    {
+      productCompleteness.examples.map((example) => (
+        <article class="completeness-gallery__item">
+          <div class="completeness-gallery__copy">
+            <h3>{example.title}</h3>
+            <p>{example.description}</p>
+          </div>
+          <figure class="completeness-gallery__figure">
+            <Image
+              src={cyprusImageAssets[example.image]}
+              alt={example.alt}
+              widths={[320, 480, 640]}
+              sizes="(max-width: 640px) 280px, (max-width: 1024px) 30vw, 360px"
+              loading="lazy"
+            />
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+  <p class="gallery-hint" aria-hidden="true">
+    Swipe to explore product features →
+  </p>
+  <p class="product-completeness__supporting-line">
+    {productCompleteness.supportingLine}
+  </p>
+</section>

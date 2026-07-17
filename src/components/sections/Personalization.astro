@@ -48,14 +48,16 @@ import SectionHeading from '../ui/SectionHeading.astro';
       {
         personalization.outcomes.map((outcome) => (
           <div class="outcomes__item">
-            <p>{outcome.label}</p>
-            <Image
-              src={cyprusImageAssets[outcome.image]}
-              alt={outcome.alt}
-              widths={[320, 480, 720]}
-              sizes="(max-width: 640px) 280px, (max-width: 1024px) 38vw, 440px"
-              loading="lazy"
-            />
+            <p class="outcomes__label">{outcome.label}</p>
+            <figure class="outcomes__figure">
+              <Image
+                src={cyprusImageAssets[outcome.image]}
+                alt={outcome.alt}
+                widths={[320, 480, 720]}
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 38vw, 440px"
+                loading="lazy"
+              />
+            </figure>
           </div>
         ))
       }

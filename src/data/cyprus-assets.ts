@@ -12,8 +12,7 @@ import homeAndroidEn from '../assets/images/cyprus/platform/home-android-en.png'
 import homeIosEn from '../assets/images/cyprus/platform/home-ios-en.png';
 
 /**
- * Typed registry of prepared production artwork. The first visual slice uses
- * the cover directly; the remaining imports are retained for later sections.
+ * Typed registry of prepared production artwork used across the case study.
  */
 export const cyprusImageAssets = {
   featureCompletedChecklist,

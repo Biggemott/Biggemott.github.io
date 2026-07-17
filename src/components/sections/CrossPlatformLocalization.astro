@@ -1,0 +1,109 @@
+---
+import { Image } from 'astro:assets';
+import { cyprusImageAssets } from '../../data/cyprus-assets';
+import { crossPlatformLocalization } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="cross-platform section"
+  id="cross-platform"
+  aria-labelledby="cross-platform-heading"
+>
+  <SectionHeading
+    eyebrow="Cross-platform product"
+    title="Shared product experience across Android and iOS"
+    id="cross-platform-heading"
+  />
+
+  <div class="cross-platform__overview">
+    <div class="cross-platform__copy prose">
+      <p>{crossPlatformLocalization.intro}</p>
+      <p>{crossPlatformLocalization.strategy}</p>
+    </div>
+    <div class="cross-platform__scope">
+      <p class="cross-platform__scope-label">Shared product areas</p>
+      <ul>
+        {crossPlatformLocalization.sharedAreas.map((area) => <li>{area}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class="cross-platform__boundaries"
+    aria-label="Native platform boundaries"
+  >
+    {
+      crossPlatformLocalization.nativeBoundaries.map((boundary) => (
+        <article class="platform-boundary">
+          <p>{boundary.label}</p>
+          <span>{boundary.description}</span>
+        </article>
+      ))
+    }
+  </div>
+  <p class="cross-platform__validation-note">
+    {crossPlatformLocalization.validationNote}
+  </p>
+
+  <figure class="platform-comparison">
+    <div
+      class="platform-comparison__gallery"
+      tabindex="0"
+      aria-label="Android and iOS product comparison"
+    >
+      {
+        crossPlatformLocalization.platformExamples.map((example) => (
+          <div class="platform-comparison__item">
+            <p>{example.label}</p>
+            <div class="platform-comparison__image">
+              <Image
+                src={cyprusImageAssets[example.image]}
+                alt={example.alt}
+                widths={[320, 480, 640]}
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 38vw, 420px"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+    <figcaption>{crossPlatformLocalization.platformCaption}</figcaption>
+  </figure>
+  <p class="gallery-hint" aria-hidden="true">Swipe to compare platforms →</p>
+
+  <div class="localization" aria-labelledby="localization-heading">
+    <h3 id="localization-heading">Three-language product localization</h3>
+    <div class="localization__copy prose">
+      <p>{crossPlatformLocalization.localization.intro}</p>
+      <p>{crossPlatformLocalization.localization.supportingCopy}</p>
+    </div>
+    <figure class="localization__examples">
+      <div
+        class="localization__gallery"
+        tabindex="0"
+        aria-label="English, Russian and Greek localization examples"
+      >
+        {
+          crossPlatformLocalization.localization.examples.map((example) => (
+            <div class="localization__item">
+              <p lang={example.lang}>{example.label}</p>
+              <div class="localization__image">
+                <Image
+                  src={cyprusImageAssets[example.image]}
+                  alt={example.alt}
+                  widths={[280, 400, 560]}
+                  sizes="(max-width: 640px) 260px, (max-width: 1024px) 28vw, 320px"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <figcaption>{crossPlatformLocalization.localization.caption}</figcaption>
+    </figure>
+    <p class="gallery-hint" aria-hidden="true">Swipe to compare languages →</p>
+  </div>
+</section>
