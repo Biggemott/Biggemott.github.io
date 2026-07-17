@@ -2,6 +2,9 @@ node_modules/
 dist/
 .astro/
 _input/
+artifacts/visual-review/
+playwright-report/
+test-results/
 
 # Editor and OS files
 .DS_Store
