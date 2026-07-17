@@ -35,6 +35,25 @@ interface CompletenessExample {
   alt: string;
 }
 
+interface OwnershipArea {
+  title: string;
+  description: string;
+}
+
+interface ArchitectureLayer {
+  title: string;
+}
+
+interface PlatformBranch {
+  name: string;
+  integrations: readonly string[];
+}
+
+interface TechnicalHighlight {
+  title: string;
+  description: string;
+}
+
 export const featuredProject = {
   name: 'Cyprus Step-by-Step',
   technology:
@@ -243,4 +262,91 @@ export const productCompleteness = {
   ] satisfies readonly CompletenessExample[],
   supportingLine:
     'Search, persistent progress and local reminders support procedures that may span multiple sessions.',
+} as const;
+
+export const productOwnership = {
+  intro:
+    'I independently owned and delivered Cyprus Step-by-Step from the initial product concept to its first Android release candidate.',
+  mainCopy:
+    'My work covered domain research, product and content design, UX and information architecture, technical strategy, Kotlin Multiplatform architecture, AI-assisted implementation, testing, localization and Google Play submission.',
+  clarification:
+    'The product was not only an engineering exercise: it required turning fragmented real-world procedures into maintainable structured content, defining how users move from questions to actionable steps and carrying the result through functional validation and release preparation.',
+  areas: [
+    {
+      title: 'Product and domain research',
+      description:
+        'Defined the product scope, researched Cyprus procedures and maintained the supporting information model.',
+    },
+    {
+      title: 'Content and UX architecture',
+      description:
+        'Designed the scenario structure, questionnaire flow, checklist experience and information hierarchy.',
+    },
+    {
+      title: 'Technical strategy',
+      description:
+        'Selected Kotlin Multiplatform and Compose Multiplatform, defined shared boundaries and isolated native integrations.',
+    },
+    {
+      title: 'Delivery workflow',
+      description:
+        'Translated product requirements into scoped implementation tasks, reviewed changes and coordinated iterative delivery.',
+    },
+    {
+      title: 'Quality and release',
+      description:
+        'Completed functional and content validation, localization, signing and Google Play submission preparation.',
+    },
+  ] satisfies readonly OwnershipArea[],
+} as const;
+
+export const technicalArchitecture = {
+  intro:
+    'Most UI, navigation, state management, domain workflows, scenario content, localization and persistence live in the shared Kotlin Multiplatform module. Platform-specific integrations remain behind explicit Android and iOS boundaries.',
+  sharedLayers: [
+    { title: 'Shared Compose UI' },
+    { title: 'Typed Navigation + Shared ViewModels' },
+    { title: 'Domain Workflows + Scenario Engine' },
+    { title: 'Repositories + Versioned Persistence' },
+    { title: 'Platform Abstractions' },
+  ] satisfies readonly ArchitectureLayer[],
+  platformBranches: [
+    {
+      name: 'Android',
+      integrations: [
+        'WorkManager',
+        'Notifications',
+        'Application file storage',
+      ],
+    },
+    {
+      name: 'iOS',
+      integrations: [
+        'SwiftUI shell',
+        'UserNotifications',
+        'Application Support storage',
+      ],
+    },
+  ] satisfies readonly PlatformBranch[],
+  persistenceNote:
+    'Progress is stored locally as a versioned serialized snapshot with compatibility handling for stale, unsupported or corrupted data.',
+  compositionNote:
+    'Dependencies are assembled through a small explicit composition root using constructor injection rather than a runtime DI framework.',
+  highlights: [
+    {
+      title: 'Data-driven checklist engine',
+      description:
+        'Structured scenario content and deterministic conditions produce ordered checklists without maintaining a separately hardcoded UI flow for every outcome.',
+    },
+    {
+      title: 'Shared reminder lifecycle',
+      description:
+        'Reminder creation, update, cancellation and state restoration follow shared workflows while scheduling is delegated to native platform implementations.',
+    },
+    {
+      title: 'Type-safe notification navigation',
+      description:
+        'Notification destinations use typed navigation data and resolve through safe fallbacks when a scenario or step is no longer valid.',
+    },
+  ] satisfies readonly TechnicalHighlight[],
 } as const;

@@ -1,0 +1,33 @@
+---
+import { productOwnership } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="product-ownership section"
+  id="ownership"
+  aria-labelledby="ownership-heading"
+>
+  <SectionHeading
+    eyebrow="Independent product ownership"
+    title="From product concept to store submission"
+    id="ownership-heading"
+  />
+  <div class="product-ownership__copy prose">
+    <p class="product-ownership__intro">{productOwnership.intro}</p>
+    <p>{productOwnership.mainCopy}</p>
+  </div>
+  <div class="product-ownership__areas">
+    {
+      productOwnership.areas.map((area) => (
+        <article class="product-ownership__area">
+          <h3>{area.title}</h3>
+          <p>{area.description}</p>
+        </article>
+      ))
+    }
+  </div>
+  <p class="product-ownership__clarification prose">
+    {productOwnership.clarification}
+  </p>
+</section>

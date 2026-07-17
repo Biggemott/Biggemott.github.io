@@ -39,6 +39,12 @@ export const captureManifest: Capture[] = [
     offsetBelowHeader: 84,
   },
   {
+    filename: 'desktop/architecture.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#architecture .section-heading',
+    offsetBelowHeader: 84,
+  },
+  {
     filename: 'mobile-390/full-page.png',
     viewport: { width: 390, height: 844 },
     fullPage: true,
@@ -64,6 +70,12 @@ export const captureManifest: Capture[] = [
       selector: '.completeness-gallery',
       itemText: 'Find the right guidance',
     },
+  },
+  {
+    filename: 'mobile-390/architecture.png',
+    viewport: { width: 390, height: 844 },
+    target: '#architecture .section-heading',
+    offsetBelowHeader: 26,
   },
   {
     filename: 'mobile-320/product-completeness.png',

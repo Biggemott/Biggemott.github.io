@@ -1,0 +1,72 @@
+---
+import { technicalArchitecture } from '../../data/project';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="technical-architecture section"
+  id="architecture"
+  aria-labelledby="architecture-heading"
+>
+  <SectionHeading
+    eyebrow="Technical architecture"
+    title="A shared product architecture with native platform integrations"
+    id="architecture-heading"
+  />
+  <p class="technical-architecture__intro prose">
+    {technicalArchitecture.intro}
+  </p>
+
+  <figure
+    class="architecture-diagram"
+    aria-labelledby="architecture-diagram-caption"
+  >
+    <ol class="architecture-diagram__shared">
+      {
+        technicalArchitecture.sharedLayers.map((layer) => (
+          <li>{layer.title}</li>
+        ))
+      }
+    </ol>
+    <div class="architecture-diagram__branches">
+      {
+        technicalArchitecture.platformBranches.map((branch) => (
+          <section
+            class="architecture-diagram__branch"
+            aria-labelledby={`${branch.name.toLowerCase()}-branch-heading`}
+          >
+            <h3 id={`${branch.name.toLowerCase()}-branch-heading`}>
+              {branch.name}
+            </h3>
+            <ul>
+              {branch.integrations.map((integration) => (
+                <li>{integration}</li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+    <figcaption id="architecture-diagram-caption" class="sr-only">
+      The shared Kotlin Multiplatform architecture flows from Shared Compose UI
+      through navigation, workflows, persistence and platform abstractions, then
+      branches to Android and iOS native integrations.
+    </figcaption>
+  </figure>
+
+  <div class="technical-architecture__notes prose">
+    <p>{technicalArchitecture.persistenceNote}</p>
+    <p>{technicalArchitecture.compositionNote}</p>
+  </div>
+
+  <div class="technical-highlights" aria-label="Technical highlights">
+    {
+      technicalArchitecture.highlights.map((highlight) => (
+        <article class="technical-highlights__card">
+          <h3>{highlight.title}</h3>
+          <p>{highlight.description}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

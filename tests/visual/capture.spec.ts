@@ -67,5 +67,5 @@ test('creates the default visual review set', async ({ browser, baseURL }) => {
     path.join(visualArtifactRoot, 'manifest.json'),
     `${JSON.stringify(outputs, null, 2)}\n`,
   );
-  expect(outputs).toHaveLength(10);
+  expect(outputs).toHaveLength(12);
 });
