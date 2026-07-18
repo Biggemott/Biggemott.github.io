@@ -14,7 +14,7 @@ import {
 } from './helpers';
 
 test('creates the default visual review set', async ({ browser, baseURL }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(90_000);
   await recreateVisualArtifactDirectory();
   const outputs = [];
   for (const capture of captureManifest) {
@@ -68,5 +68,5 @@ test('creates the default visual review set', async ({ browser, baseURL }) => {
     path.join(visualArtifactRoot, 'manifest.json'),
     `${JSON.stringify(outputs, null, 2)}\n`,
   );
-  expect(outputs).toHaveLength(22);
+  expect(outputs).toHaveLength(26);
 });

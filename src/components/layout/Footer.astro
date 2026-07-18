@@ -1,18 +1,28 @@
 ---
 import { site } from '../../data/site';
+import ExternalLink from '../ui/ExternalLink.astro';
 ---
 
 <footer class="site-footer">
   <div class="site-footer__inner">
     <p>© 2026 Nikita Glazkov</p>
     <nav aria-label="Footer links">
-      <a href={site.linkedin} target="_blank" rel="noreferrer"
-        >LinkedIn<span class="sr-only"> (opens in a new tab)</span></a
+      <ExternalLink
+        href={site.contact.linkedin.url}
+        label={site.contact.linkedin.label}
+        ariaLabel={site.contact.linkedin.ariaLabel}
+        variant="context"
+      />
+      <a
+        class="external-link external-link--context"
+        href={`mailto:${site.contact.email}`}>Email</a
       >
-      <a href={`mailto:${site.email}`}>Email</a>
-      <a href={site.telegram} target="_blank" rel="noreferrer"
-        >Telegram<span class="sr-only"> (opens in a new tab)</span></a
-      >
+      <ExternalLink
+        href={site.contact.telegram.url}
+        label={site.contact.telegram.label}
+        ariaLabel={site.contact.telegram.ariaLabel}
+        variant="context"
+      />
     </nav>
   </div>
 </footer>

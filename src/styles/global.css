@@ -1297,6 +1297,138 @@ h1 {
   background: var(--color-surface);
 }
 
+.background__intro {
+  max-width: 52rem;
+}
+.background__areas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 3rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+.background__areas article {
+  min-width: 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-accent-soft);
+}
+.background__label {
+  margin: 0 0 0.6rem;
+  color: var(--color-accent-text);
+  font-size: 0.8rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.background__areas h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.background__areas article > p:last-child {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.background__languages {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.background__languages li {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+.background__languages strong {
+  color: var(--color-text);
+  font-size: 1.1rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.contact {
+  border-bottom: 0;
+}
+.contact__surface {
+  padding: clamp(1.35rem, 4vw, 2.5rem);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-accent-soft);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+}
+.contact__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.8fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: center;
+}
+.contact__intro {
+  max-width: 39rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+.contact__methods {
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  border-top: 1px solid var(--color-border);
+}
+.contact__method {
+  min-height: 4.5rem;
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 0.45fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.contact__method dt {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+.contact__method dd {
+  min-width: 0;
+  margin: 0;
+  text-align: right;
+}
+.contact__email {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 0.45rem 0 0.45rem 0.35rem;
+  overflow-wrap: anywhere;
+  color: var(--color-accent-text);
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.35;
+  text-align: left;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.14em;
+}
+.contact__method .external-link {
+  min-height: 44px;
+  padding: 0.5rem 0 0.5rem 0.35rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.9rem;
+}
+.contact__specialties {
+  margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
 .site-footer {
   border-top: 1px solid var(--color-border);
 }
@@ -1312,12 +1444,25 @@ h1 {
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.5rem;
 }
-.site-footer a {
+.site-footer nav > a {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  margin-top: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+.site-footer nav > a:hover {
+  background: var(--color-surface-warm);
+  color: var(--color-text);
 }
 
 @media (max-width: 800px) {
@@ -1527,6 +1672,17 @@ h1 {
   .expertise__groups {
     grid-template-columns: 1fr;
   }
+  .background__areas,
+  .contact__main {
+    grid-template-columns: 1fr;
+  }
+  .background__areas {
+    gap: 1.35rem;
+    margin-top: 2rem;
+  }
+  .contact__main {
+    gap: 2rem;
+  }
   .quality-grid__item {
     padding: 1.1rem;
   }
@@ -1655,6 +1811,19 @@ h1 {
     padding: 1.25rem 0;
     flex-direction: column;
     align-items: flex-start;
+  }
+  .contact__method {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+    align-items: start;
+    padding: 0.8rem 0;
+  }
+  .contact__method dd {
+    text-align: left;
+  }
+  .contact__email,
+  .contact__method .external-link {
+    padding-left: 0;
   }
 }
 

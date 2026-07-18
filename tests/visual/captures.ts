@@ -75,6 +75,18 @@ export const captureManifest: Capture[] = [
     offsetBelowHeader: 84,
   },
   {
+    filename: 'desktop/background-contact.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#background',
+    offsetBelowHeader: 84,
+  },
+  {
+    filename: 'desktop/contact.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#contact',
+    offsetBelowHeader: 84,
+  },
+  {
     filename: 'mobile-390/full-page.png',
     viewport: { width: 390, height: 844 },
     fullPage: true,
@@ -142,9 +154,21 @@ export const captureManifest: Capture[] = [
     offsetBelowHeader: 26,
   },
   {
+    filename: 'mobile-390/contact.png',
+    viewport: { width: 390, height: 844 },
+    target: '#contact',
+    offsetBelowHeader: 26,
+  },
+  {
     filename: 'mobile-320/experience.png',
     viewport: { width: 320, height: 800 },
     target: '#experience',
+    offsetBelowHeader: 26,
+  },
+  {
+    filename: 'mobile-320/contact.png',
+    viewport: { width: 320, height: 800 },
+    target: '#contact',
     offsetBelowHeader: 26,
   },
 ];

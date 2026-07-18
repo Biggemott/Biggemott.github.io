@@ -1,0 +1,54 @@
+---
+import { profile, site } from '../../data/site';
+import ExternalLink from '../ui/ExternalLink.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section class="contact section" id="contact" aria-labelledby="contact-heading">
+  <div class="contact__surface">
+    <div class="contact__main">
+      <div>
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let's discuss Android and mobile engineering"
+          id="contact-heading"
+        />
+        <p class="contact__intro">{profile.opportunity.contact}</p>
+      </div>
+      <dl class="contact__methods">
+        <div class="contact__method">
+          <dt>Email</dt>
+          <dd>
+            <a class="contact__email" href={`mailto:${site.contact.email}`}
+              >{site.contact.email}</a
+            >
+          </dd>
+        </div>
+        <div class="contact__method">
+          <dt>LinkedIn</dt>
+          <dd>
+            <ExternalLink
+              href={site.contact.linkedin.url}
+              label="Open profile"
+              ariaLabel={site.contact.linkedin.ariaLabel}
+            />
+          </dd>
+        </div>
+        <div class="contact__method">
+          <dt>Telegram</dt>
+          <dd>
+            <ExternalLink
+              href={site.contact.telegram.url}
+              label="Open profile"
+              ariaLabel={site.contact.telegram.ariaLabel}
+            />
+          </dd>
+        </div>
+      </dl>
+    </div>
+    <p class="contact__specialties">
+      Senior / Lead Android · Kotlin · Jetpack Compose · Mobile Architecture ·
+      Kotlin Multiplatform
+    </p>
+  </div>
+</section>

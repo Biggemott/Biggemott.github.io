@@ -1,0 +1,46 @@
+---
+import { profile } from '../../data/site';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="background section"
+  id="background"
+  aria-labelledby="background-heading"
+>
+  <SectionHeading
+    eyebrow="Background"
+    title="Engineering education and international communication"
+    id="background-heading"
+  />
+  <p class="background__intro prose">
+    A formal engineering foundation supports more than a decade of practical
+    mobile development across product, platform and leadership roles.
+  </p>
+  <div class="background__areas">
+    <article>
+      <p class="background__label">Education</p>
+      <h3>{profile.education.primary}</h3>
+      <p>{profile.education.secondary}</p>
+    </article>
+    <article>
+      <p class="background__label">Languages</p>
+      <ul class="background__languages">
+        {
+          profile.languages.map((language) => (
+            <li>
+              <strong>{language.name}</strong>
+              <span aria-hidden="true"> · </span>
+              <span>{language.level}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+    <article>
+      <p class="background__label">Location</p>
+      <h3>{profile.opportunity.location}</h3>
+      <p>{profile.opportunity.context}</p>
+    </article>
+  </div>
+</section>

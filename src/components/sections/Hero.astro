@@ -1,5 +1,5 @@
 ---
-import { site } from '../../data/site';
+import { profile, site } from '../../data/site';
 import ButtonLink from '../ui/ButtonLink.astro';
 import Metric from '../ui/Metric.astro';
 
@@ -27,16 +27,14 @@ const summaryCards = [
       Technical Leadership
     </p>
     <p class="hero__location">
-      Based in Limassol, Cyprus · Open to remote and hybrid opportunities
+      Based in Limassol, Cyprus · {profile.opportunity.hero}
     </p>
     <div class="hero__actions">
       <ButtonLink href="#project">View featured project</ButtonLink>
-      <ButtonLink href={site.linkedin} variant="secondary" external
+      <ButtonLink href={site.contact.linkedin.url} variant="secondary" external
         >LinkedIn</ButtonLink
       >
-      <ButtonLink href={`mailto:${site.email}`} variant="secondary"
-        >Contact</ButtonLink
-      >
+      <ButtonLink href="#contact" variant="secondary">Contact</ButtonLink>
     </div>
   </div>
   <div class="hero__cards" aria-label="Career summary">
