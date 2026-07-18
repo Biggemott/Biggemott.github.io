@@ -2,6 +2,11 @@
 
 Astro portfolio for Nikita Glazkov, Senior / Lead Android Engineer.
 
+The production site is prepared for [https://biggemott.github.io/](https://biggemott.github.io/).
+Astro's `site` is configured for the root domain and uses no `base` path. Production
+metadata includes an Open Graph image, SVG favicon, Apple touch icon, `robots.txt`,
+and `sitemap.xml`. Playwright remains development-only tooling.
+
 ## Local setup
 
 Requires Node.js 22.12 or newer and npm.

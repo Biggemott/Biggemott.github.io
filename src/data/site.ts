@@ -47,8 +47,11 @@ export const navigation = [
 export const metadata = {
   title: 'Nikita Glazkov — Senior / Lead Android Engineer',
   description:
-    'Senior / Lead Android Engineer with 13+ years of experience in Kotlin, Jetpack Compose, mobile architecture, Kotlin Multiplatform, fintech, real-time media and AOSP-based systems.',
-  openGraphDescription:
-    'Hands-on Android engineer and technical leader with experience across Kotlin Multiplatform, fintech, real-time media and Android platform development.',
-  canonicalUrl: 'https://biggemott.github.io/',
+    'Senior / Lead Android Engineer with 13+ years of experience in Kotlin, Jetpack Compose, mobile architecture, Kotlin Multiplatform, media, fintech and Android platform engineering.',
+  author: 'Nikita Glazkov',
+  locale: 'en',
+  openGraphImagePath: '/og-image.png',
+  openGraphImageAlt:
+    'Nikita Glazkov — Senior / Lead Android Engineer portfolio',
+  themeColor: '#fafaf7',
 } as const;

@@ -1441,6 +1441,13 @@ h1 {
 .site-footer p {
   margin: 0;
 }
+.site-footer__details {
+  display: grid;
+  gap: 0.2rem;
+}
+.site-footer__technology {
+  font-size: 0.8rem;
+}
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;

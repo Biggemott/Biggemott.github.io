@@ -5,7 +5,12 @@ import ExternalLink from '../ui/ExternalLink.astro';
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>© 2026 Nikita Glazkov</p>
+    <div class="site-footer__details">
+      <p>© 2026 Nikita Glazkov</p>
+      <p class="site-footer__technology">
+        Built with Astro, TypeScript and vanilla CSS.
+      </p>
+    </div>
     <nav aria-label="Footer links">
       <ExternalLink
         href={site.contact.linkedin.url}

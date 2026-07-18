@@ -31,6 +31,107 @@ const sections = [
   '#contact',
 ];
 
+test('production metadata and discovery files are complete', async ({
+  page,
+  baseURL,
+}) => {
+  const response = await page.goto(baseURL!, { waitUntil: 'networkidle' });
+  expect(response?.ok()).toBeTruthy();
+
+  const title = 'Nikita Glazkov — Senior / Lead Android Engineer';
+  const description =
+    'Senior / Lead Android Engineer with 13+ years of experience in Kotlin, Jetpack Compose, mobile architecture, Kotlin Multiplatform, media, fintech and Android platform engineering.';
+  const canonicalUrl = 'https://biggemott.github.io/';
+  const imageUrl = 'https://biggemott.github.io/og-image.png';
+  const imageAlt = 'Nikita Glazkov — Senior / Lead Android Engineer portfolio';
+
+  await expect(page).toHaveTitle(title);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    'content',
+    description,
+  );
+  await expect(page.locator('meta[name="author"]')).toHaveAttribute(
+    'content',
+    'Nikita Glazkov',
+  );
+  await expect(page.locator('meta[name="theme-color"]')).toHaveCount(1);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    canonicalUrl,
+  );
+  for (const [property, content] of [
+    ['og:type', 'website'],
+    ['og:title', title],
+    ['og:description', description],
+    ['og:url', canonicalUrl],
+    ['og:image', imageUrl],
+    ['og:image:width', '1200'],
+    ['og:image:height', '630'],
+    ['og:image:alt', imageAlt],
+  ])
+    await expect(page.locator(`meta[property="${property}"]`)).toHaveAttribute(
+      'content',
+      content,
+    );
+  for (const [name, content] of [
+    ['twitter:card', 'summary_large_image'],
+    ['twitter:title', title],
+    ['twitter:description', description],
+    ['twitter:image', imageUrl],
+  ])
+    await expect(page.locator(`meta[name="${name}"]`)).toHaveAttribute(
+      'content',
+      content,
+    );
+  const faviconLinks = page.locator('link[rel="icon"]');
+  await expect(faviconLinks).toHaveCount(2);
+  await expect(faviconLinks.nth(0)).toHaveAttribute('href', '/favicon.ico');
+  await expect(faviconLinks.nth(0)).toHaveAttribute(
+    'sizes',
+    '16x16 32x32 48x48',
+  );
+  await expect(faviconLinks.nth(1)).toHaveAttribute('href', '/favicon.svg');
+  await expect(faviconLinks.nth(1)).toHaveAttribute('type', 'image/svg+xml');
+  await expect(faviconLinks.nth(1)).toHaveAttribute('sizes', 'any');
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'href',
+    '/apple-touch-icon.png',
+  );
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'sizes',
+    '180x180',
+  );
+  await expect(page.locator('h1')).toHaveCount(1);
+  expect(await page.content()).not.toContain('localhost');
+  await expect(
+    page.getByText('Built with Astro, TypeScript and vanilla CSS.', {
+      exact: true,
+    }),
+  ).toHaveCount(1);
+
+  const robots = await page.request.get('/robots.txt');
+  expect(robots.ok()).toBeTruthy();
+  expect(await robots.text()).toContain(
+    'Sitemap: https://biggemott.github.io/sitemap.xml',
+  );
+  const sitemap = await page.request.get('/sitemap.xml');
+  expect(sitemap.ok()).toBeTruthy();
+  const sitemapText = await sitemap.text();
+  expect(sitemapText).toContain(canonicalUrl);
+  expect([...sitemapText.matchAll(/<loc>/g)]).toHaveLength(1);
+  for (const iconPath of [
+    '/favicon.ico',
+    '/favicon.svg',
+    '/apple-touch-icon.png',
+  ]) {
+    const iconResponse = await page.request.get(iconPath);
+    expect(iconResponse.ok()).toBeTruthy();
+  }
+  expect(await page.content()).not.toContain('astro-icon');
+});
+
 for (const viewport of viewports) {
   test(`responsive smoke check at ${viewport.width}x${viewport.height}`, async ({
     page,
