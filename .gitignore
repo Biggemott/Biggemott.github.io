@@ -2,7 +2,7 @@ node_modules/
 dist/
 .astro/
 _input/
-artifacts/visual-review/
+artifacts/
 playwright-report/
 test-results/
 

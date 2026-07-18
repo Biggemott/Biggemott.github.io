@@ -1,0 +1,21 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  ariaLabel: string;
+  variant?: 'store' | 'context';
+}
+
+const { href, label, ariaLabel, variant = 'store' } = Astro.props;
+---
+
+<a
+  class:list={['external-link', `external-link--${variant}`]}
+  href={href}
+  target="_blank"
+  rel="noreferrer noopener"
+  aria-label={ariaLabel}
+>
+  {label}<span class="external-link__indicator" aria-hidden="true">↗</span>
+  <span class="sr-only"> (opens in a new tab)</span>
+</a>

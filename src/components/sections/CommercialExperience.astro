@@ -1,0 +1,129 @@
+---
+import {
+  featuredCommercialRoles,
+  platformEngineering,
+  supportingExperience,
+} from '../../data/experience';
+import SectionHeading from '../ui/SectionHeading.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
+---
+
+<section
+  class="commercial-experience section"
+  id="experience"
+  aria-labelledby="experience-heading"
+>
+  <SectionHeading
+    eyebrow="Commercial experience"
+    title="Building and evolving mobile products across media, fintech and Android platforms"
+    id="experience-heading"
+  />
+  <p class="commercial-experience__intro prose">
+    My commercial work spans real-time media products, mobile investing, banking
+    applications and custom Android devices — with responsibilities ranging from
+    complex implementation to team building and technical leadership.
+  </p>
+  <div class="featured-roles">
+    {
+      featuredCommercialRoles.map((role) => (
+        <article
+          class="featured-role"
+          aria-labelledby={`${role.product.toLowerCase().replaceAll(/[^a-z]+/g, '-')}-heading`}
+        >
+          <div class="featured-role__header">
+            <div>
+              <>
+                <h3
+                  id={`${role.product.toLowerCase().replaceAll(/[^a-z]+/g, '-')}-heading`}
+                >
+                  {role.product}
+                </h3>
+                <p>{role.role}</p>
+              </>
+            </div>
+            <div class="external-links">
+              {role.links.map((link) => (
+                <ExternalLink
+                  href={link.url}
+                  label={link.label}
+                  ariaLabel={link.ariaLabel}
+                />
+              ))}
+            </div>
+          </div>
+          <p class="featured-role__summary">{role.summary}</p>
+          <ul class="featured-role__contributions">
+            {role.contributions.map((contribution) => (
+              <li>
+                <h4>{contribution.title}</h4>
+                <p>{contribution.description}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="featured-role__leadership">
+            <strong>Leadership:</strong> {role.leadershipNote}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+  <section
+    class="platform-experience"
+    id="platform-experience"
+    aria-labelledby="platform-experience-heading"
+  >
+    <p class="eyebrow">Android platform engineering</p>
+    <h3 id="platform-experience-heading">
+      Working below the application layer
+    </h3>
+    <p class="platform-experience__intro">{platformEngineering.intro}</p>
+    <div class="platform-experience__entries">
+      {
+        platformEngineering.entries.map((entry) => (
+          <article>
+            <>
+              <h4>{entry.product}</h4>
+              <p class="platform-experience__role">{entry.role}</p>
+              <p>{entry.description}</p>
+              <ExternalLink
+                href={entry.link.url}
+                label={entry.link.label}
+                ariaLabel={entry.link.ariaLabel}
+                variant="context"
+              />
+              <ul>
+                {entry.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <article class="supporting-role" aria-labelledby="raiffeisen-heading">
+    <div class="supporting-role__header">
+      <div>
+        <h3 id="raiffeisen-heading">{supportingExperience.product}</h3>
+        <p>{supportingExperience.role}</p>
+      </div>
+      <ExternalLink
+        href={supportingExperience.link.url}
+        label={supportingExperience.link.label}
+        ariaLabel={supportingExperience.link.ariaLabel}
+      />
+    </div>
+    <p class="supporting-role__summary">{supportingExperience.summary}</p>
+    <ul class="supporting-role__contributions">
+      {
+        supportingExperience.contributions.map((contribution) => (
+          <li>
+            <h4>{contribution.title}</h4>
+            <p>{contribution.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</section>

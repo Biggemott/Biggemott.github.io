@@ -1,0 +1,42 @@
+---
+import { leadership } from '../../data/experience';
+import SectionHeading from '../ui/SectionHeading.astro';
+---
+
+<section
+  class="leadership section"
+  id="leadership"
+  aria-labelledby="leadership-heading"
+>
+  <SectionHeading
+    eyebrow="Hands-on technical leadership"
+    title="Leading teams without stepping away from engineering"
+    id="leadership-heading"
+  />
+  <p class="leadership__intro prose">{leadership.intro}</p>
+  <div class="leadership__content">
+    <div class="leadership__facts" aria-label="Leadership facts">
+      {
+        leadership.facts.map((fact) => (
+          <p>
+            <>
+              <strong>{fact.value}</strong>
+              <span>{fact.label}</span>
+            </>
+          </p>
+        ))
+      }
+    </div><div class="leadership__areas">
+      {
+        leadership.areas.map((area) => (
+          <article>
+            <>
+              <h3>{area.title}</h3>
+              <p>{area.description}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

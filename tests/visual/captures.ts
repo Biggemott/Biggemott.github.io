@@ -57,6 +57,24 @@ export const captureManifest: Capture[] = [
     offsetBelowHeader: 84,
   },
   {
+    filename: 'desktop/experience-top.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#experience',
+    offsetBelowHeader: 84,
+  },
+  {
+    filename: 'desktop/platform-experience.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#platform-experience',
+    offsetBelowHeader: 84,
+  },
+  {
+    filename: 'desktop/expertise.png',
+    viewport: { width: 1440, height: 1024 },
+    target: '#expertise',
+    offsetBelowHeader: 84,
+  },
+  {
     filename: 'mobile-390/full-page.png',
     viewport: { width: 390, height: 844 },
     fullPage: true,
@@ -110,5 +128,23 @@ export const captureManifest: Capture[] = [
       selector: '.completeness-gallery',
       itemText: 'Find the right guidance',
     },
+  },
+  {
+    filename: 'mobile-390/experience.png',
+    viewport: { width: 390, height: 844 },
+    target: '#experience',
+    offsetBelowHeader: 26,
+  },
+  {
+    filename: 'mobile-390/expertise.png',
+    viewport: { width: 390, height: 844 },
+    target: '#expertise',
+    offsetBelowHeader: 26,
+  },
+  {
+    filename: 'mobile-320/experience.png',
+    viewport: { width: 320, height: 800 },
+    target: '#experience',
+    offsetBelowHeader: 26,
   },
 ];
