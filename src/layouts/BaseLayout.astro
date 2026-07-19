@@ -1,7 +1,7 @@
 ---
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
-import { metadata } from '../data/site';
+import { metadata, site } from '../data/site';
 import '../styles/global.css';
 
 if (!Astro.site) throw new Error('Astro.site must be configured');
@@ -33,6 +33,15 @@ const openGraphImageUrl = new URL(metadata.openGraphImagePath, Astro.site).href;
     <meta name="twitter:title" content={metadata.title} />
     <meta name="twitter:description" content={metadata.description} />
     <meta name="twitter:image" content={openGraphImageUrl} />
+    <script
+      is:inline
+      defer
+      src={site.analytics.scriptUrl}
+      data-website-id={site.analytics.websiteId}
+      data-domains={site.analytics.domain}
+      data-do-not-track="true"
+      data-performance="true"
+      data-exclude-hash="true"></script>
     <title>{metadata.title}</title>
   </head>
   <body>

@@ -17,16 +17,23 @@ import ExternalLink from '../ui/ExternalLink.astro';
         label={site.contact.linkedin.label}
         ariaLabel={site.contact.linkedin.ariaLabel}
         variant="context"
+        analyticsEvent="contact-click"
+        analyticsData={{ channel: 'linkedin', placement: 'footer' }}
       />
       <a
         class="external-link external-link--context"
-        href={`mailto:${site.contact.email}`}>Email</a
+        href={`mailto:${site.contact.email}`}
+        data-umami-event="contact-click"
+        data-umami-event-channel="email"
+        data-umami-event-placement="footer">Email</a
       >
       <ExternalLink
         href={site.contact.telegram.url}
         label={site.contact.telegram.label}
         ariaLabel={site.contact.telegram.ariaLabel}
         variant="context"
+        analyticsEvent="contact-click"
+        analyticsData={{ channel: 'telegram', placement: 'footer' }}
       />
     </nav>
   </div>

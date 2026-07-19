@@ -35,6 +35,140 @@ const sections = [
   '#contact',
 ];
 
+test.beforeEach(async ({ page }) => {
+  await page.route('https://cloud.umami.is/**', (route) =>
+    route.fulfill({ contentType: 'application/javascript', body: '' }),
+  );
+});
+
+test('Umami tracker and declarative event attributes are production-safe', async ({
+  page,
+  baseURL,
+}) => {
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+
+  const tracker = page.locator(
+    'script[src="https://cloud.umami.is/script.js"]',
+  );
+  await expect(tracker).toHaveCount(1);
+  await expect(tracker).toHaveAttribute(
+    'data-website-id',
+    'b3b6eef8-4560-4fdc-8c7e-9e3a49e43e92',
+  );
+  await expect(tracker).toHaveAttribute('defer', '');
+  await expect(tracker).toHaveAttribute('data-domains', 'biggemott.github.io');
+  await expect(tracker).toHaveAttribute('data-do-not-track', 'true');
+  await expect(tracker).toHaveAttribute('data-performance', 'true');
+  await expect(tracker).toHaveAttribute('data-exclude-hash', 'true');
+  await expect(tracker).not.toHaveAttribute('data-exclude-search');
+
+  const analyticsAudit = await page.evaluate(() => {
+    const prohibitedProviderPatterns = [
+      /google-analytics/i,
+      /googletagmanager/i,
+      /plausible/i,
+      /fathom/i,
+      /segment/i,
+    ];
+    const analyticsLinks = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-umami-event]'),
+    ).map((element) => ({
+      event: element.getAttribute('data-umami-event'),
+      properties: Array.from(element.attributes)
+        .filter((attribute) => attribute.name.startsWith('data-umami-event-'))
+        .map((attribute) => `${attribute.name}=${attribute.value}`),
+    }));
+
+    return {
+      otherAnalyticsProviders: Array.from(document.scripts)
+        .map((script) => script.src)
+        .filter((src) =>
+          prohibitedProviderPatterns.some((pattern) => pattern.test(src)),
+        ),
+      cvEvents: analyticsLinks.filter((link) => link.event === 'file-download'),
+      contactEvents: analyticsLinks.filter(
+        (link) => link.event === 'contact-click',
+      ),
+      productEvents: analyticsLinks.filter(
+        (link) => link.event === 'product-link-click',
+      ),
+      featuredProjectEvents: analyticsLinks.filter(
+        (link) => link.event === 'featured-project-click',
+      ),
+      headerEvents: Array.from(
+        document.querySelectorAll('.site-header [data-umami-event]'),
+      ).length,
+      eventProperties: analyticsLinks.flatMap((link) => link.properties),
+    };
+  });
+
+  expect(analyticsAudit.otherAnalyticsProviders).toEqual([]);
+  expect(analyticsAudit.cvEvents).toEqual([
+    {
+      event: 'file-download',
+      properties: [
+        'data-umami-event-file=Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
+        'data-umami-event-placement=hero',
+      ],
+    },
+    {
+      event: 'file-download',
+      properties: [
+        'data-umami-event-file=Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
+        'data-umami-event-placement=contact',
+      ],
+    },
+  ]);
+  expect(analyticsAudit.contactEvents).toHaveLength(7);
+  expect(
+    analyticsAudit.contactEvents.every(({ properties }) => {
+      const values = Object.fromEntries(
+        properties.map((property) => property.split('=')),
+      );
+      return (
+        ['email', 'linkedin', 'telegram'].includes(
+          values['data-umami-event-channel'],
+        ) &&
+        ['hero', 'contact', 'footer'].includes(
+          values['data-umami-event-placement'],
+        )
+      );
+    }),
+  ).toBeTruthy();
+  expect(analyticsAudit.productEvents).toHaveLength(6);
+  expect(
+    analyticsAudit.productEvents.every(({ properties }) => {
+      const values = Object.fromEntries(
+        properties.map((property) => property.split('=')),
+      );
+      return (
+        [
+          'tapyou',
+          'brokstock',
+          'raiffeisen',
+          'yandex-phone',
+          'yotaphone-2',
+        ].includes(values['data-umami-event-product']) &&
+        ['google-play', 'app-store', 'product-overview'].includes(
+          values['data-umami-event-destination'],
+        )
+      );
+    }),
+  ).toBeTruthy();
+  expect(analyticsAudit.featuredProjectEvents).toEqual([
+    {
+      event: 'featured-project-click',
+      properties: ['data-umami-event-placement=hero'],
+    },
+  ]);
+  expect(analyticsAudit.headerEvents).toBe(0);
+  expect(analyticsAudit.eventProperties).not.toContainEqual(
+    expect.stringMatching(
+      /@|mailto:|linkedin\.com|t\.me|biggemott@gmail\.com|https?:\/\//i,
+    ),
+  );
+});
+
 test('production markup is semantically complete and internally linked', async ({
   page,
   baseURL,

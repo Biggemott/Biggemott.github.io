@@ -2,6 +2,11 @@ export const site = {
   name: 'Nikita Glazkov',
   title: 'Senior / Lead Android Engineer',
   location: 'Limassol, Cyprus',
+  analytics: {
+    scriptUrl: 'https://cloud.umami.is/script.js',
+    websiteId: 'b3b6eef8-4560-4fdc-8c7e-9e3a49e43e92',
+    domain: 'biggemott.github.io',
+  },
   contact: {
     email: 'biggemott@gmail.com',
     cvPath: '/Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',

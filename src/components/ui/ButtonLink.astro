@@ -5,6 +5,8 @@ interface Props {
   external?: boolean;
   download?: string;
   ariaLabel?: string;
+  analyticsEvent?: string;
+  analyticsData?: Record<string, string>;
 }
 
 const {
@@ -13,7 +15,20 @@ const {
   external = false,
   download,
   ariaLabel,
+  analyticsEvent,
+  analyticsData = {},
 } = Astro.props;
+const analyticsAttributes = analyticsEvent
+  ? {
+      'data-umami-event': analyticsEvent,
+      ...Object.fromEntries(
+        Object.entries(analyticsData).map(([key, value]) => [
+          `data-umami-event-${key}`,
+          value,
+        ]),
+      ),
+    }
+  : {};
 ---
 
 <a
@@ -23,6 +38,7 @@ const {
   rel={external ? 'noreferrer noopener' : undefined}
   download={download}
   aria-label={ariaLabel}
+  {...analyticsAttributes}
 >
   <slot />
   {

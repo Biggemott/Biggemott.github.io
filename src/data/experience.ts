@@ -3,6 +3,11 @@ export interface ExternalProductLink {
   url: string;
   ariaLabel: string;
   variant?: 'store' | 'context';
+  analyticsData: {
+    product:
+      'tapyou' | 'brokstock' | 'raiffeisen' | 'yandex-phone' | 'yotaphone-2';
+    destination: 'google-play' | 'app-store' | 'product-overview';
+  };
 }
 
 export interface ContributionGroup {
@@ -59,6 +64,7 @@ export const featuredCommercialRoles = [
         label: 'Google Play',
         url: 'https://play.google.com/store/apps/details?id=com.tapyou.app&hl=en',
         ariaLabel: 'Open TapYou on Google Play in a new tab',
+        analyticsData: { product: 'tapyou', destination: 'google-play' },
       },
     ],
     summary:
@@ -101,11 +107,13 @@ export const featuredCommercialRoles = [
         label: 'Google Play',
         url: 'https://play.google.com/store/apps/details?id=com.bcsmarkets.bcstrade',
         ariaLabel: 'Open BROKSTOCK on Google Play in a new tab',
+        analyticsData: { product: 'brokstock', destination: 'google-play' },
       },
       {
         label: 'App Store',
         url: 'https://apps.apple.com/za/app/brokstock-save-invest-trade/id1554064793',
         ariaLabel: 'Open BROKSTOCK on the App Store in a new tab',
+        analyticsData: { product: 'brokstock', destination: 'app-store' },
       },
     ],
     summary:
@@ -159,6 +167,10 @@ export const platformEngineering = {
         url: 'https://yandex.com/company/news/2018-12-05',
         ariaLabel: 'Open the Yandex.Phone product overview in a new tab',
         variant: 'context',
+        analyticsData: {
+          product: 'yandex-phone',
+          destination: 'product-overview',
+        },
       },
     },
     {
@@ -179,6 +191,10 @@ export const platformEngineering = {
         url: 'https://www.wired.com/2014/12/yotaphone-2/',
         ariaLabel: 'Open the YotaPhone 2 product overview in a new tab',
         variant: 'context',
+        analyticsData: {
+          product: 'yotaphone-2',
+          destination: 'product-overview',
+        },
       },
     },
   ] satisfies readonly PlatformEngineeringEntry[],
@@ -191,6 +207,7 @@ export const supportingExperience: CompactSupportingExperience = {
     label: 'Google Play',
     url: 'https://play.google.com/store/apps/details?id=ru.raiffeisennews',
     ariaLabel: 'Open Raiffeisen on Google Play in a new tab',
+    analyticsData: { product: 'raiffeisen', destination: 'google-play' },
   },
   summary:
     'Developed customer-facing mobile banking functionality as part of the Online Sales team in a multi-module Kotlin application built with RxJava, Dagger and MVP.',

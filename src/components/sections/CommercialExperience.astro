@@ -47,6 +47,8 @@ import ExternalLink from '../ui/ExternalLink.astro';
                   href={link.url}
                   label={link.label}
                   ariaLabel={link.ariaLabel}
+                  analyticsEvent="product-link-click"
+                  analyticsData={link.analyticsData}
                 />
               ))}
             </div>
@@ -90,6 +92,8 @@ import ExternalLink from '../ui/ExternalLink.astro';
                 label={entry.link.label}
                 ariaLabel={entry.link.ariaLabel}
                 variant="context"
+                analyticsEvent="product-link-click"
+                analyticsData={entry.link.analyticsData}
               />
               <ul>
                 {entry.tags.map((tag) => (
@@ -112,6 +116,8 @@ import ExternalLink from '../ui/ExternalLink.astro';
         href={supportingExperience.link.url}
         label={supportingExperience.link.label}
         ariaLabel={supportingExperience.link.ariaLabel}
+        analyticsEvent="product-link-click"
+        analyticsData={supportingExperience.link.analyticsData}
       />
     </div>
     <p class="supporting-role__summary">{supportingExperience.summary}</p>

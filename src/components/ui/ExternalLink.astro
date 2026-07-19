@@ -4,9 +4,29 @@ interface Props {
   label: string;
   ariaLabel: string;
   variant?: 'store' | 'context';
+  analyticsEvent?: string;
+  analyticsData?: Record<string, string>;
 }
 
-const { href, label, ariaLabel, variant = 'store' } = Astro.props;
+const {
+  href,
+  label,
+  ariaLabel,
+  variant = 'store',
+  analyticsEvent,
+  analyticsData = {},
+} = Astro.props;
+const analyticsAttributes = analyticsEvent
+  ? {
+      'data-umami-event': analyticsEvent,
+      ...Object.fromEntries(
+        Object.entries(analyticsData).map(([key, value]) => [
+          `data-umami-event-${key}`,
+          value,
+        ]),
+      ),
+    }
+  : {};
 ---
 
 <a
@@ -15,6 +35,7 @@ const { href, label, ariaLabel, variant = 'store' } = Astro.props;
   target="_blank"
   rel="noreferrer noopener"
   aria-label={ariaLabel}
+  {...analyticsAttributes}
 >
   {label}<span class="external-link__indicator" aria-hidden="true">↗</span>
   <span class="sr-only"> (opens in a new tab)</span>
