@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import {
   expectNoHorizontalOverflow,
   expectVisible,
@@ -160,7 +162,78 @@ test('mobile navigation closes with Escape and after a selection', async ({
   await toggle.click();
   await page.locator('.site-header__nav a[href="#contact"]').click();
   await expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  await expect(toggle).toBeFocused();
+  await expect(toggle).not.toBeFocused();
+});
+
+test('mobile navigation preserves native fragment scrolling after a selection', async ({
+  page,
+  baseURL,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  const destinations = [
+    ['#experience', '#contact'],
+    ['#project', '#contact'],
+    ['#expertise', '#contact'],
+    ['#contact', '#about'],
+  ] as const;
+
+  for (const [fragment, startingPoint] of destinations) {
+    await page.goto(baseURL!, { waitUntil: 'networkidle' });
+    await page.evaluate((selector) => {
+      const element = document.querySelector(selector);
+      if (!element) throw new Error(`Missing ${selector}`);
+      const elementTop = element.getBoundingClientRect().top + window.scrollY;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, Math.max(500, elementTop));
+      document.documentElement.style.removeProperty('scroll-behavior');
+    }, startingPoint);
+    expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+
+    const toggle = page.locator('.site-header__toggle');
+    await toggle.click();
+    const link = page.locator(`.site-header__nav a[href="${fragment}"]`);
+    await link.click();
+    await expect(page).toHaveURL(new RegExp(`${fragment}$`));
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.locator('.site-header')).not.toHaveClass(/is-open/);
+    await expect(toggle).not.toBeFocused();
+    await page.waitForFunction((selector) => {
+      const target = document.querySelector<HTMLElement>(selector);
+      const header = document.querySelector<HTMLElement>('.site-header');
+      return Boolean(
+        target &&
+        header &&
+        target.getBoundingClientRect().top >=
+          header.getBoundingClientRect().bottom - 1 &&
+        target.getBoundingClientRect().top < window.innerHeight,
+      );
+    }, fragment);
+
+    const position = await page.evaluate((selector) => {
+      const target = document.querySelector<HTMLElement>(selector);
+      const header = document.querySelector<HTMLElement>('.site-header');
+      if (!target || !header) throw new Error(`Missing ${selector}`);
+      const targetTop = target.getBoundingClientRect().top;
+      const headerBottom = header.getBoundingClientRect().bottom;
+      const targetDocumentTop = targetTop + window.scrollY;
+      return {
+        targetTop,
+        headerBottom,
+        scrollY: window.scrollY,
+        targetDocumentTop,
+        viewportHeight: window.innerHeight,
+      };
+    }, fragment);
+    expect(position.targetTop).toBeGreaterThanOrEqual(
+      position.headerBottom - 1,
+    );
+    expect(position.scrollY).toBeGreaterThan(
+      position.targetDocumentTop - position.viewportHeight,
+    );
+    expect(position.scrollY).toBeLessThanOrEqual(
+      position.targetDocumentTop + 1,
+    );
+  }
 });
 
 test('production metadata and discovery files are complete', async ({
@@ -262,6 +335,43 @@ test('production metadata and discovery files are complete', async ({
     expect(iconResponse.ok()).toBeTruthy();
   }
   expect(await page.content()).not.toContain('astro-icon');
+});
+
+test('CV download is published once in Hero and Contact', async ({
+  page,
+  baseURL,
+}) => {
+  const cvPath = '/Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf';
+  const cvFilename = 'Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf';
+  const cvAriaLabel = "Download Nikita Glazkov's CV as PDF";
+  const response = await page.request.get(cvPath);
+
+  expect(response.ok()).toBeTruthy();
+  expect(response.headers()['content-type']).toMatch(/application\/pdf/i);
+  expect((await response.body()).byteLength).toBeGreaterThan(0);
+
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+  const heroLink = page.locator('#hero a', { hasText: 'Download CV' });
+  const contactLink = page.locator('#contact a', { hasText: 'Download PDF' });
+  await expect(heroLink).toHaveCount(1);
+  await expect(contactLink).toHaveCount(1);
+  for (const link of [heroLink, contactLink]) {
+    await expect(link).toHaveAttribute('href', cvPath);
+    await expect(link).toHaveAttribute('download', cvFilename);
+    await expect(link).not.toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('aria-label', cvAriaLabel);
+  }
+  await expect(page.locator('header a', { hasText: /CV/i })).toHaveCount(0);
+  await expect(page.locator('footer a', { hasText: /CV/i })).toHaveCount(0);
+  await expect(page.locator('a[href$=".docx" i]')).toHaveCount(0);
+  expect(cvPath.startsWith('/')).toBeTruthy();
+
+  for (const directory of ['public', 'dist']) {
+    const files = await fs.readdir(path.join(process.cwd(), directory));
+    expect(
+      files.some((file) => file.toLowerCase().endsWith('.docx')),
+    ).toBeFalsy();
+  }
 });
 
 for (const viewport of viewports) {

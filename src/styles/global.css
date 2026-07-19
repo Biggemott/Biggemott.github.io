@@ -1396,7 +1396,8 @@ h1 {
   margin: 0;
   text-align: right;
 }
-.contact__email {
+.contact__email,
+.contact__download {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -1557,6 +1558,9 @@ h1 {
   }
   .hero__actions .button-link--secondary {
     width: 100%;
+  }
+  .hero__actions .button-link--secondary[download] {
+    grid-column: 1 / -1;
   }
   .metric {
     min-height: 7.5rem;
@@ -1829,6 +1833,7 @@ h1 {
     text-align: left;
   }
   .contact__email,
+  .contact__download,
   .contact__method .external-link {
     padding-left: 0;
   }

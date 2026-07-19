@@ -3,9 +3,17 @@ interface Props {
   href: string;
   variant?: 'primary' | 'secondary';
   external?: boolean;
+  download?: string;
+  ariaLabel?: string;
 }
 
-const { href, variant = 'primary', external = false } = Astro.props;
+const {
+  href,
+  variant = 'primary',
+  external = false,
+  download,
+  ariaLabel,
+} = Astro.props;
 ---
 
 <a
@@ -13,6 +21,8 @@ const { href, variant = 'primary', external = false } = Astro.props;
   href={href}
   target={external ? '_blank' : undefined}
   rel={external ? 'noreferrer noopener' : undefined}
+  download={download}
+  aria-label={ariaLabel}
 >
   <slot />
   {

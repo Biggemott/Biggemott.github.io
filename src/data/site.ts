@@ -4,6 +4,9 @@ export const site = {
   location: 'Limassol, Cyprus',
   contact: {
     email: 'biggemott@gmail.com',
+    cvPath: '/Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
+    cvDownloadFilename: 'Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
+    cvAriaLabel: "Download Nikita Glazkov's CV as PDF",
     linkedin: {
       url: 'https://linkedin.com/in/nikita-glazkov-3b1019144/',
       label: 'LinkedIn',

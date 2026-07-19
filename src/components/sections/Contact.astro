@@ -44,6 +44,17 @@ import SectionHeading from '../ui/SectionHeading.astro';
             />
           </dd>
         </div>
+        <div class="contact__method">
+          <dt>CV</dt>
+          <dd>
+            <a
+              class="contact__download"
+              href={site.contact.cvPath}
+              download={site.contact.cvDownloadFilename}
+              aria-label={site.contact.cvAriaLabel}>Download PDF</a
+            >
+          </dd>
+        </div>
       </dl>
     </div>
     <p class="contact__specialties">

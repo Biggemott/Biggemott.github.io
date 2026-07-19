@@ -35,6 +35,12 @@ const summaryCards = [
         >LinkedIn</ButtonLink
       >
       <ButtonLink href="#contact" variant="secondary">Contact</ButtonLink>
+      <ButtonLink
+        href={site.contact.cvPath}
+        variant="secondary"
+        download={site.contact.cvDownloadFilename}
+        ariaLabel={site.contact.cvAriaLabel}>Download CV</ButtonLink
+      >
     </div>
   </div>
   <div class="hero__cards" aria-label="Career summary">

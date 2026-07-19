@@ -50,7 +50,7 @@ import { navigation } from '../../data/site';
   });
 
   navigation?.addEventListener('click', (event) => {
-    if ((event.target as Element).closest('a')) closeMenu(true);
+    if ((event.target as Element).closest('a')) closeMenu();
   });
 
   document.addEventListener('keydown', (event) => {
