@@ -96,8 +96,18 @@ test('Umami tracker and declarative event attributes are production-safe', async
         (link) => link.event === 'featured-project-click',
       ),
       headerEvents: Array.from(
-        document.querySelectorAll('.site-header [data-umami-event]'),
-      ).length,
+        document.querySelectorAll<HTMLElement>(
+          '.site-header__nav [data-umami-event]',
+        ),
+      ).map((element) => ({
+        event: element.getAttribute('data-umami-event'),
+        section: element.getAttribute('data-umami-event-section'),
+        placement: element.getAttribute('data-umami-event-placement'),
+        href: (element as HTMLAnchorElement).getAttribute('href'),
+        analyticsAttributeCount: Array.from(element.attributes).filter(
+          (attribute) => attribute.name.startsWith('data-umami-event'),
+        ).length,
+      })),
       eventProperties: analyticsLinks.flatMap((link) => link.properties),
     };
   });
@@ -161,7 +171,43 @@ test('Umami tracker and declarative event attributes are production-safe', async
       properties: ['data-umami-event-placement=hero'],
     },
   ]);
-  expect(analyticsAudit.headerEvents).toBe(0);
+  expect(analyticsAudit.headerEvents).toEqual([
+    {
+      event: 'section-navigation-click',
+      section: 'about',
+      placement: 'header',
+      href: '#about',
+      analyticsAttributeCount: 3,
+    },
+    {
+      event: 'section-navigation-click',
+      section: 'project',
+      placement: 'header',
+      href: '#project',
+      analyticsAttributeCount: 3,
+    },
+    {
+      event: 'section-navigation-click',
+      section: 'experience',
+      placement: 'header',
+      href: '#experience',
+      analyticsAttributeCount: 3,
+    },
+    {
+      event: 'section-navigation-click',
+      section: 'expertise',
+      placement: 'header',
+      href: '#expertise',
+      analyticsAttributeCount: 3,
+    },
+    {
+      event: 'section-navigation-click',
+      section: 'contact',
+      placement: 'header',
+      href: '#contact',
+      analyticsAttributeCount: 3,
+    },
+  ]);
   expect(analyticsAudit.eventProperties).not.toContainEqual(
     expect.stringMatching(
       /@|mailto:|linkedin\.com|t\.me|biggemott@gmail\.com|https?:\/\//i,

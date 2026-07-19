@@ -26,7 +26,18 @@ import { navigation } from '../../data/site';
       id="primary-navigation"
       aria-label="Primary navigation"
     >
-      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      {
+        navigation.map((item) => (
+          <a
+            href={item.href}
+            data-umami-event="section-navigation-click"
+            data-umami-event-section={item.href.slice(1)}
+            data-umami-event-placement="header"
+          >
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
