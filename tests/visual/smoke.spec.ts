@@ -57,7 +57,7 @@ test('Umami tracker and declarative event attributes are production-safe', async
   );
   await expect(tracker).toHaveAttribute('defer', '');
   await expect(tracker).toHaveAttribute('data-domains', 'biggemott.github.io');
-  await expect(tracker).toHaveAttribute('data-do-not-track', 'true');
+  await expect(tracker).not.toHaveAttribute('data-do-not-track');
   await expect(tracker).toHaveAttribute('data-performance', 'true');
   await expect(tracker).toHaveAttribute('data-exclude-hash', 'true');
   await expect(tracker).not.toHaveAttribute('data-exclude-search');
