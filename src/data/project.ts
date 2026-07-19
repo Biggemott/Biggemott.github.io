@@ -82,7 +82,7 @@ export const featuredProject = {
   scope:
     'The first release covers eight areas of life in Cyprus, including relocation, transport, taxation, healthcare, housing, family, work and everyday life.',
   ownership:
-    'Independently taken from product concept and domain research to Kotlin Multiplatform development, testing and Google Play submission.',
+    'I independently took the product from concept and domain research through Kotlin Multiplatform development, testing and Google Play submission.',
   metrics: [
     ['18', 'guided procedures'],
     ['209', 'actionable steps'],

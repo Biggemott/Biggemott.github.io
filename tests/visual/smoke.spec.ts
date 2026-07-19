@@ -7,9 +7,11 @@ import {
 
 const viewports = [
   { width: 1440, height: 1024 },
+  { width: 1280, height: 800 },
   { width: 1024, height: 768 },
   { width: 768, height: 1024 },
   { width: 390, height: 844 },
+  { width: 360, height: 800 },
   { width: 320, height: 800 },
 ];
 const sections = [
@@ -30,6 +32,136 @@ const sections = [
   '#background',
   '#contact',
 ];
+
+test('production markup is semantically complete and internally linked', async ({
+  page,
+  baseURL,
+}) => {
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+  const audit = await page.evaluate(() => {
+    const ids = Array.from(document.querySelectorAll<HTMLElement>('[id]')).map(
+      (element) => element.id,
+    );
+    const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+    const fragmentTargets = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
+    ).map((link) => link.getAttribute('href')!.slice(1));
+    const missingFragmentTargets = [...new Set(fragmentTargets)].filter(
+      (id) => document.querySelectorAll(`#${CSS.escape(id)}`).length !== 1,
+    );
+    const invalidAriaLabelledBy = Array.from(
+      document.querySelectorAll<HTMLElement>('[aria-labelledby]'),
+    ).flatMap((element) =>
+      element
+        .getAttribute('aria-labelledby')!
+        .split(/\s+/)
+        .filter(
+          (id) => document.querySelectorAll(`#${CSS.escape(id)}`).length !== 1,
+        ),
+    );
+    const emptyInteractive = Array.from(
+      document.querySelectorAll<HTMLElement>('a, button'),
+    ).filter(
+      (element) =>
+        !element.textContent?.trim() && !element.getAttribute('aria-label'),
+    ).length;
+
+    return {
+      duplicateIds,
+      missingFragmentTargets,
+      invalidAriaLabelledBy,
+      emptyInteractive,
+      nestedInteractive: document.querySelectorAll(
+        'a a, a button, button a, button button',
+      ).length,
+      headingCounts: [1, 2, 3, 4, 5, 6].map(
+        (level) => document.querySelectorAll(`h${level}`).length,
+      ),
+      landmarkCounts: {
+        header: document.querySelectorAll('header').length,
+        nav: document.querySelectorAll('nav').length,
+        main: document.querySelectorAll('main').length,
+        footer: document.querySelectorAll('footer').length,
+      },
+      imageIssues: Array.from(document.images).filter(
+        (image) => !image.hasAttribute('alt'),
+      ).length,
+      unsafeExternalLinks: Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]'),
+      ).filter((link) => {
+        const rel = link.rel.split(/\s+/);
+        return !rel.includes('noopener') || !rel.includes('noreferrer');
+      }).length,
+      mailtoTargets: Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('a[href^="mailto:"]'),
+      ).filter((link) => link.target).length,
+    };
+  });
+
+  expect(audit.duplicateIds).toEqual([]);
+  expect(audit.missingFragmentTargets).toEqual([]);
+  expect(audit.invalidAriaLabelledBy).toEqual([]);
+  expect(audit.emptyInteractive).toBe(0);
+  expect(audit.nestedInteractive).toBe(0);
+  expect(audit.headingCounts[0]).toBe(1);
+  expect(audit.landmarkCounts).toEqual({
+    header: 1,
+    nav: 2,
+    main: 1,
+    footer: 1,
+  });
+  expect(audit.imageIssues).toBe(0);
+  expect(audit.unsafeExternalLinks).toBe(0);
+  expect(audit.mailtoTargets).toBe(0);
+});
+
+test('fragment navigation keeps targets visible below the sticky header', async ({
+  page,
+  baseURL,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1024 });
+  for (const fragment of [
+    '#about',
+    '#project',
+    '#experience',
+    '#expertise',
+    '#contact',
+  ]) {
+    await page.goto(`${baseURL}${fragment}`, { waitUntil: 'networkidle' });
+    const offset = await page.evaluate((target) => {
+      const targetElement = document.querySelector(target);
+      const header = document.querySelector('.site-header');
+      if (!targetElement || !header) return Number.NEGATIVE_INFINITY;
+      return (
+        targetElement.getBoundingClientRect().top -
+        header.getBoundingClientRect().bottom
+      );
+    }, fragment);
+    expect(offset).toBeGreaterThanOrEqual(-1);
+  }
+});
+
+test('mobile navigation closes with Escape and after a selection', async ({
+  page,
+  baseURL,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+  const toggle = page.locator('.site-header__toggle');
+  await expect(toggle).toHaveAttribute('aria-controls', 'primary-navigation');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+
+  await toggle.click();
+  await page.locator('.site-header__nav a[href="#contact"]').click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+});
 
 test('production metadata and discovery files are complete', async ({
   page,
@@ -138,10 +270,44 @@ for (const viewport of viewports) {
     baseURL,
   }) => {
     await page.setViewportSize(viewport);
+    const consoleErrors: string[] = [];
+    const failedSameOriginRequests: string[] = [];
+    const baseOrigin = new URL(baseURL!).origin;
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text());
+    });
+    page.on('requestfailed', (request) => {
+      if (new URL(request.url()).origin === baseOrigin)
+        failedSameOriginRequests.push(request.url());
+    });
+    page.on('response', (response) => {
+      if (
+        response.status() >= 400 &&
+        new URL(response.url()).origin === baseOrigin
+      )
+        failedSameOriginRequests.push(`${response.status()} ${response.url()}`);
+    });
     const response = await page.goto(baseURL!, { waitUntil: 'networkidle' });
     expect(response?.ok()).toBeTruthy();
+    await expect(page.locator('img[loading="lazy"]')).toHaveCount(14);
     await preparePage(page);
     await expectNoHorizontalOverflow(page);
+    expect(consoleErrors).toEqual([]);
+    expect(failedSameOriginRequests).toEqual([]);
+    await expect
+      .poll(() =>
+        page
+          .locator('img')
+          .evaluateAll((images) =>
+            images.every(
+              (image) =>
+                image instanceof HTMLImageElement &&
+                image.complete &&
+                image.naturalWidth > 0,
+            ),
+          ),
+      )
+      .toBe(true);
     for (const selector of sections)
       await expectVisible(page.locator(selector));
     await expectVisible(page.locator('footer'));
@@ -184,6 +350,11 @@ for (const viewport of viewports) {
     await expect(
       page.locator('.hero__actions a', { hasText: 'Contact' }),
     ).toHaveAttribute('href', '#contact');
+    const heroLinkedIn = page.locator('.hero__actions a', {
+      hasText: 'LinkedIn',
+    });
+    await expect(heroLinkedIn).toHaveAttribute('target', '_blank');
+    await expect(heroLinkedIn).toHaveAttribute('rel', 'noreferrer noopener');
     await expect(page.locator('.hero__location')).toContainText(
       'On-site in Cyprus',
     );

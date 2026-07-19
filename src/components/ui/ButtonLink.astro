@@ -12,8 +12,15 @@ const { href, variant = 'primary', external = false } = Astro.props;
   class:list={['button-link', `button-link--${variant}`]}
   href={href}
   target={external ? '_blank' : undefined}
-  rel={external ? 'noreferrer' : undefined}
+  rel={external ? 'noreferrer noopener' : undefined}
 >
   <slot />
-  {external && <span class="sr-only"> (opens in a new tab)</span>}
+  {
+    external && (
+      <>
+        <span aria-hidden="true">↗</span>
+        <span class="sr-only"> (opens in a new tab)</span>
+      </>
+    )
+  }
 </a>

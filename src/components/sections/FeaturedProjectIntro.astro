@@ -16,7 +16,11 @@ const assetCount = Object.keys(cyprusImageAssets).length + 1;
   data-image-assets={assetCount}
 >
   <div class="project__intro">
-    <SectionHeading eyebrow="Featured project" title={featuredProject.name} />
+    <SectionHeading
+      eyebrow="Featured project"
+      title={featuredProject.name}
+      id="project-heading"
+    />
     <p class="project__technology">{featuredProject.technology}</p>
     <p class="project__description">{featuredProject.description}</p>
     <p>{featuredProject.audience}</p>

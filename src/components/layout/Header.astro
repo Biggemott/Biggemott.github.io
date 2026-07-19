@@ -38,9 +38,10 @@ import { navigation } from '../../data/site';
   );
   const navigation = document.querySelector<HTMLElement>('.site-header__nav');
 
-  const closeMenu = () => {
+  const closeMenu = (returnFocus = false) => {
     header?.classList.remove('is-open');
     toggle?.setAttribute('aria-expanded', 'false');
+    if (returnFocus) requestAnimationFrame(() => toggle?.focus());
   };
 
   toggle?.addEventListener('click', () => {
@@ -49,6 +50,12 @@ import { navigation } from '../../data/site';
   });
 
   navigation?.addEventListener('click', (event) => {
-    if ((event.target as Element).closest('a')) closeMenu();
+    if ((event.target as Element).closest('a')) closeMenu(true);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && header?.classList.contains('is-open')) {
+      closeMenu(true);
+    }
   });
 </script>
