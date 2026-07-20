@@ -98,7 +98,7 @@ export const productExperience = {
   },
   solution: {
     label: 'The solution',
-    copy: 'Cyprus Step-by-Step organizes this information into structured guided procedures.\n\nUsers answer a short set of relevant questions and receive an actionable checklist adapted to their circumstances, with progress tracking, reminders and direct links to supporting sources.',
+    copy: 'Cyprus Step-by-Step organizes scattered information into structured guided procedures.\n\nUsers answer a short set of relevant questions and receive a tailored checklist with progress tracking, reminders and direct links to supporting sources.',
   },
   flow: {
     title: 'From a complex procedure to a personal checklist',
@@ -253,7 +253,7 @@ export const crossPlatformLocalization = {
 
 export const productCompleteness = {
   intro:
-    'Many administrative and everyday procedures take days or weeks to complete. The app supports multiple active scenarios, persistent progress, search and local reminders so users can continue when the next action becomes relevant.',
+    'Procedures can take days or weeks. The app supports multiple scenarios, persistent progress, search and local reminders.',
   examples: [
     {
       title: 'Find the right guidance',
@@ -278,41 +278,34 @@ export const productCompleteness = {
     },
   ] satisfies readonly CompletenessExample[],
   supportingLine:
-    'Search, persistent progress and local reminders support procedures that may span multiple sessions.',
+    'These features support procedures that span multiple sessions.',
 } as const;
 
 export const productOwnership = {
   intro:
-    'I independently owned and delivered Cyprus Step-by-Step from the initial product concept to its first Android release candidate.',
+    'I independently took Cyprus Step-by-Step from concept and domain research through implementation, validation, localization, signing and Google Play submission.',
   mainCopy:
-    'My work covered domain research, product and content design, UX and information architecture, technical strategy, Kotlin Multiplatform architecture, AI-assisted implementation, testing, localization and Google Play submission.',
-  clarification:
-    'The product was not only an engineering exercise: it required turning fragmented real-world procedures into maintainable structured content, defining how users move from questions to actionable steps and carrying the result through functional validation and release preparation.',
+    'I turned fragmented procedures into maintainable content and designed the path from questions to actionable steps.',
   areas: [
     {
-      title: 'Product and domain research',
+      title: 'Product, domain and content research',
       description:
-        'Defined the product scope, researched Cyprus procedures and maintained the supporting information model.',
+        'Defined scope, researched Cyprus procedures and maintained the supporting information model.',
     },
     {
       title: 'Content and UX architecture',
       description:
-        'Designed the scenario structure, questionnaire flow, checklist experience and information hierarchy.',
+        'Designed scenario structure, questionnaire flow, checklist experience and information hierarchy.',
     },
     {
       title: 'Technical strategy',
       description:
-        'Selected Kotlin Multiplatform and Compose Multiplatform, defined shared boundaries and isolated native integrations.',
+        'Selected Kotlin Multiplatform, defined shared boundaries and isolated native integrations.',
     },
     {
-      title: 'Delivery workflow',
+      title: 'Delivery, quality and release',
       description:
-        'Translated product requirements into scoped implementation tasks, reviewed changes and coordinated iterative delivery.',
-    },
-    {
-      title: 'Quality and release',
-      description:
-        'Completed functional and content validation, localization, signing and Google Play submission preparation.',
+        'Translated requirements into scoped implementation, reviewed changes and coordinated iterative delivery.',
     },
   ] satisfies readonly OwnershipArea[],
 } as const;
@@ -353,7 +346,7 @@ export const technicalArchitecture = {
     {
       title: 'Data-driven checklist engine',
       description:
-        'Structured scenario content and deterministic conditions produce ordered checklists without maintaining a separately hardcoded UI flow for every outcome.',
+        'Structured content and conditions produce ordered checklists through shared logic.',
     },
     {
       title: 'Shared reminder lifecycle',
@@ -370,68 +363,53 @@ export const technicalArchitecture = {
 
 export const qualityWorkflow = {
   intro:
-    'The product combines automated checks, manual platform validation, content review and a structured AI-assisted engineering workflow.',
+    'The product combines automated checks, platform validation, content review and controlled AI-assisted workflow.',
   qualityIntro:
-    'Validation covered shared product logic, platform behavior, localized content and release preparation rather than relying on a single final testing pass.',
+    'Validation covered shared logic, platform behavior and localized content.',
   qualityAreas: [
     {
       title: 'Automated product logic',
       description:
-        'Around 40 test files exercise shared parsing, questionnaire and checklist behavior, persistence and workflow logic without claiming complete coverage.',
+        'Around 40 test files exercise shared parsing, questionnaire and checklist behavior, persistence and workflow logic.',
     },
     {
       title: 'Android device validation',
       description:
-        'Core flows, navigation, local persistence, reminders and release behavior were manually exercised on a physical Android device.',
+        'Core flows, navigation, local persistence and reminders were manually exercised on a physical Android device.',
     },
     {
       title: 'iOS simulator validation',
       description:
-        'The native shell, shared Compose experience, navigation and notification integration were checked in the iOS simulator.',
+        'The native shell, shared Compose experience and navigation were checked in the iOS simulator.',
     },
     {
       title: 'Content and localization review',
       description:
-        'All 18 procedures were reviewed across English, Russian and Greek, including conditional paths and supporting source links.',
+        'All 18 procedures were reviewed across English, Russian and Greek, including conditional paths and source links.',
     },
   ] satisfies readonly QualityArea[],
   workflowIntro:
-    'Each implementation slice started from a defined product requirement and ended with human review and real-device or simulator validation.',
+    'Each implementation slice had a defined scope and ended with human review and platform validation.',
   workflowSteps: [
     {
-      title: 'Product requirement',
+      title: 'Defined requirement and acceptance criteria',
       description:
-        'Define the user problem, expected behavior and product constraints.',
+        'Define the user problem, expected behavior, constraints and reviewable scope.',
     },
     {
-      title: 'Structured specification and acceptance criteria',
+      title: 'Bounded AI-assisted implementation',
       description:
-        'Turn the requirement into an explicit, reviewable implementation scope.',
+        'Use Codex to accelerate a scoped change, not to make open-ended product decisions.',
     },
     {
-      title: 'Scoped Codex implementation',
+      title: 'Automated checks and independent review',
       description:
-        'Use Codex to accelerate a bounded change rather than delegate open-ended product decisions.',
+        'Run formatting, static checks, builds and relevant tests, then use a separate review pass.',
     },
     {
-      title: 'Build and automated tests',
+      title: 'Human architecture review and manual platform validation',
       description:
-        'Run formatting, static checks, builds and relevant automated verification.',
-    },
-    {
-      title: 'Independent agent review',
-      description:
-        'Use a separate review pass to challenge assumptions, regressions and missed requirements.',
-    },
-    {
-      title: 'Human diff and architecture review',
-      description:
-        'Review the actual changes, architecture boundaries and long-term maintenance impact.',
-    },
-    {
-      title: 'Manual device or simulator validation',
-      description:
-        'Confirm the final behavior in the real Android app and the iOS simulator shell.',
+        'Review changes and architecture boundaries, then confirm behavior on Android and in the iOS simulator.',
     },
   ] satisfies readonly EngineeringWorkflowStep[],
   ownershipStatement:

@@ -702,19 +702,15 @@ h1 {
 }
 .product-ownership__areas {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.35rem clamp(1.25rem, 3vw, 3rem);
   max-width: 60rem;
   margin-top: clamp(2.5rem, 5vw, 4rem);
 }
 .product-ownership__area {
-  grid-column: span 2;
   min-width: 0;
   padding-left: 1rem;
   border-left: 2px solid var(--color-accent-soft);
-}
-.product-ownership__area:nth-child(-n + 2) {
-  grid-column: span 3;
 }
 .product-ownership__area h3,
 .technical-highlights__card h3 {
