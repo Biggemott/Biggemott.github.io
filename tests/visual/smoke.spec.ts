@@ -19,6 +19,8 @@ const viewports = [
 const sections = [
   '#hero',
   '#about',
+  '#experience',
+  '#leadership',
   '#project',
   '#product-experience',
   '#personalization',
@@ -28,8 +30,6 @@ const sections = [
   '#architecture',
   '#quality-workflow',
   '#release-status',
-  '#experience',
-  '#leadership',
   '#expertise',
   '#background',
   '#contact',
@@ -181,16 +181,16 @@ test('Umami tracker and declarative event attributes are production-safe', async
     },
     {
       event: 'section-navigation-click',
-      section: 'project',
+      section: 'experience',
       placement: 'header',
-      href: '#project',
+      href: '#experience',
       analyticsAttributeCount: 3,
     },
     {
       event: 'section-navigation-click',
-      section: 'experience',
+      section: 'project',
       placement: 'header',
-      href: '#experience',
+      href: '#project',
       analyticsAttributeCount: 3,
     },
     {
@@ -297,6 +297,101 @@ test('production markup is semantically complete and internally linked', async (
   expect(audit.mailtoTargets).toBe(0);
 });
 
+test('portfolio information architecture preserves content and links while reordering sections', async ({
+  page,
+  baseURL,
+}) => {
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+
+  const audit = await page.evaluate(() => {
+    const sectionOrder = Array.from(
+      document.querySelectorAll<HTMLElement>('main > section'),
+    ).map((section) => `#${section.id}`);
+    const preservedSectionIds = [
+      '#about',
+      '#experience',
+      '#project',
+      '#expertise',
+      '#contact',
+    ];
+    const headerLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('.site-header__nav a'),
+    ).map((link) => ({
+      href: link.getAttribute('href'),
+      event: link.getAttribute('data-umami-event'),
+      section: link.getAttribute('data-umami-event-section'),
+      placement: link.getAttribute('data-umami-event-placement'),
+    }));
+
+    return {
+      sectionOrder,
+      preservedSectionIdCounts: Object.fromEntries(
+        preservedSectionIds.map((id) => [
+          id,
+          document.querySelectorAll(id).length,
+        ]),
+      ),
+      headerLinks,
+      heroProjectCta: document
+        .querySelector('.hero__actions a')
+        ?.getAttribute('href'),
+      featuredProjectEvent: document
+        .querySelector('.hero__actions a')
+        ?.getAttribute('data-umami-event'),
+    };
+  });
+
+  expect(audit.sectionOrder.indexOf('#experience')).toBeLessThan(
+    audit.sectionOrder.indexOf('#project'),
+  );
+  expect(audit.sectionOrder.slice(0, 3)).toEqual([
+    '#hero',
+    '#about',
+    '#experience',
+  ]);
+  expect(audit.preservedSectionIdCounts).toEqual({
+    '#about': 1,
+    '#experience': 1,
+    '#project': 1,
+    '#expertise': 1,
+    '#contact': 1,
+  });
+  expect(audit.headerLinks).toEqual([
+    {
+      href: '#about',
+      event: 'section-navigation-click',
+      section: 'about',
+      placement: 'header',
+    },
+    {
+      href: '#experience',
+      event: 'section-navigation-click',
+      section: 'experience',
+      placement: 'header',
+    },
+    {
+      href: '#project',
+      event: 'section-navigation-click',
+      section: 'project',
+      placement: 'header',
+    },
+    {
+      href: '#expertise',
+      event: 'section-navigation-click',
+      section: 'expertise',
+      placement: 'header',
+    },
+    {
+      href: '#contact',
+      event: 'section-navigation-click',
+      section: 'contact',
+      placement: 'header',
+    },
+  ]);
+  expect(audit.heroProjectCta).toBe('#project');
+  expect(audit.featuredProjectEvent).toBe('featured-project-click');
+});
+
 test('fragment navigation keeps targets visible below the sticky header', async ({
   page,
   baseURL,
@@ -304,8 +399,8 @@ test('fragment navigation keeps targets visible below the sticky header', async 
   await page.setViewportSize({ width: 1440, height: 1024 });
   for (const fragment of [
     '#about',
-    '#project',
     '#experience',
+    '#project',
     '#expertise',
     '#contact',
   ]) {
@@ -631,8 +726,8 @@ for (const viewport of viewports) {
     await expect(headerLinks).toHaveCount(5);
     await expect(headerLinks).toHaveText([
       'About',
-      'Project',
       'Experience',
+      'Project',
       'Expertise',
       'Contact',
     ]);
