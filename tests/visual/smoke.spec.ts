@@ -145,7 +145,7 @@ test('Umami tracker and declarative event attributes are production-safe', async
       );
     }),
   ).toBeTruthy();
-  expect(analyticsAudit.productEvents).toHaveLength(6);
+  expect(analyticsAudit.productEvents).toHaveLength(8);
   expect(
     analyticsAudit.productEvents.every(({ properties }) => {
       const values = Object.fromEntries(
@@ -158,6 +158,7 @@ test('Umami tracker and declarative event attributes are production-safe', async
           'raiffeisen',
           'yandex-phone',
           'yotaphone-2',
+          'cyprus-step-by-step',
         ].includes(values['data-umami-event-product']) &&
         ['google-play', 'app-store', 'product-overview'].includes(
           values['data-umami-event-destination'],
@@ -165,6 +166,28 @@ test('Umami tracker and declarative event attributes are production-safe', async
       );
     }),
   ).toBeTruthy();
+  expect(
+    analyticsAudit.productEvents.filter(({ properties }) =>
+      properties.includes('data-umami-event-product=cyprus-step-by-step'),
+    ),
+  ).toEqual([
+    {
+      event: 'product-link-click',
+      properties: [
+        'data-umami-event-product=cyprus-step-by-step',
+        'data-umami-event-destination=google-play',
+        'data-umami-event-placement=project-intro',
+      ],
+    },
+    {
+      event: 'product-link-click',
+      properties: [
+        'data-umami-event-product=cyprus-step-by-step',
+        'data-umami-event-destination=google-play',
+        'data-umami-event-placement=release-status',
+      ],
+    },
+  ]);
   expect(analyticsAudit.featuredProjectEvents).toEqual([
     {
       event: 'featured-project-click',
@@ -213,6 +236,62 @@ test('Umami tracker and declarative event attributes are production-safe', async
       /@|mailto:|linkedin\.com|t\.me|biggemott@gmail\.com|https?:\/\//i,
     ),
   );
+});
+
+test('store links use the canonical label and visual pattern', async ({
+  page,
+  baseURL,
+}) => {
+  await page.goto(baseURL!, { waitUntil: 'networkidle' });
+
+  const storeLinks = await page
+    .locator('.external-link--store')
+    .evaluateAll((links) =>
+      links
+        .filter((link) => {
+          const href = link.getAttribute('href') ?? '';
+          return (
+            href.startsWith('https://play.google.com/') ||
+            href.startsWith('https://apps.apple.com/')
+          );
+        })
+        .map((link) => ({
+          label: link.childNodes[0]?.textContent,
+          href: link.getAttribute('href'),
+          target: link.getAttribute('target'),
+          rel: link.getAttribute('rel'),
+          placement: link.getAttribute('data-umami-event-placement'),
+        })),
+    );
+
+  expect(storeLinks).toHaveLength(6);
+  expect(
+    storeLinks.every(({ label }) =>
+      ['Google Play', 'App Store'].includes(label ?? ''),
+    ),
+  ).toBeTruthy();
+  expect(
+    storeLinks.filter(
+      ({ href }) =>
+        href ===
+        'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
+    ),
+  ).toEqual([
+    {
+      label: 'Google Play',
+      href: 'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      placement: 'project-intro',
+    },
+    {
+      label: 'Google Play',
+      href: 'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      placement: 'release-status',
+    },
+  ]);
 });
 
 test('production markup is semantically complete and internally linked', async ({

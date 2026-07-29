@@ -281,7 +281,6 @@ export const expertiseGroups = [
     title: 'Architecture and state',
     items: [
       'MVVM',
-      'MVI',
       'MVP',
       'Unidirectional data flow',
       'Clean Architecture',

@@ -69,6 +69,10 @@ interface PlatformReleaseStatus {
   label: string;
   description: string;
   facts: readonly string[];
+  storeLink?: {
+    url: string;
+    ariaLabel: string;
+  };
 }
 
 export const featuredProject = {
@@ -82,7 +86,9 @@ export const featuredProject = {
   scope:
     'The first release covers eight areas of life in Cyprus, including relocation, transport, taxation, healthcare, housing, family, work and everyday life.',
   ownership:
-    'I independently took the product from concept and domain research through Kotlin Multiplatform development, testing and Google Play submission.',
+    'I independently took the product from concept and domain research through Kotlin Multiplatform development, testing and a public Google Play release.',
+  googlePlayUrl:
+    'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
   metrics: [
     ['18', 'guided procedures'],
     ['209', 'actionable steps'],
@@ -283,7 +289,7 @@ export const productCompleteness = {
 
 export const productOwnership = {
   intro:
-    'I independently took Cyprus Step-by-Step from concept and domain research through implementation, validation, localization, signing and Google Play submission.',
+    'I independently took Cyprus Step-by-Step from concept and domain research through implementation, validation, localization, signing and a public Google Play release.',
   mainCopy:
     'I turned fragmented procedures into maintainable content and designed the path from questions to actionable steps.',
   areas: [
@@ -418,18 +424,22 @@ export const qualityWorkflow = {
 
 export const releaseStatus = {
   intro:
-    'Android is the first release target. The shared Kotlin Multiplatform product and native iOS shell are ready for final physical-device validation and release preparation.',
+    'Cyprus Step-by-Step is publicly available on Google Play. The shared Kotlin Multiplatform product and native iOS shell are ready for final physical-device validation and release preparation.',
   platforms: [
     {
       platform: 'Android',
-      label: 'Submitted for review',
+      label: 'Published on Google Play',
       description:
-        'Functional and content testing were completed on an Android device. The signed release build was prepared and submitted to Google Play for review.',
+        'The signed Android release was validated on a physical device and published on Google Play. The production listing, signing and release workflow are complete.',
       facts: [
-        'Primary release target',
+        'Public Google Play release',
         'Physical-device validation',
         'Store listing and signing completed',
       ],
+      storeLink: {
+        url: 'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
+        ariaLabel: 'View Cyprus Step-by-Step on Google Play in a new tab',
+      },
     },
     {
       platform: 'iOS',

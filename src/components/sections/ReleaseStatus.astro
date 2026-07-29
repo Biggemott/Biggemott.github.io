@@ -1,5 +1,6 @@
 ---
 import { releaseStatus } from '../../data/project';
+import ExternalLink from '../ui/ExternalLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 ---
 
@@ -10,7 +11,7 @@ import SectionHeading from '../ui/SectionHeading.astro';
 >
   <SectionHeading
     eyebrow="Release status"
-    title="Android submitted for review, iOS ready for final validation"
+    title="Android live on Google Play, iOS ready for final validation"
     id="release-status-heading"
   />
   <p class="release-status__intro prose">{releaseStatus.intro}</p>
@@ -36,6 +37,21 @@ import SectionHeading from '../ui/SectionHeading.astro';
               <li>{fact}</li>
             ))}
           </ul>
+          {platform.storeLink && (
+            <div class="release-panel__action external-links">
+              <ExternalLink
+                href={platform.storeLink.url}
+                label="Google Play"
+                ariaLabel={platform.storeLink.ariaLabel}
+                analyticsEvent="product-link-click"
+                analyticsData={{
+                  product: 'cyprus-step-by-step',
+                  destination: 'google-play',
+                  placement: 'release-status',
+                }}
+              />
+            </div>
+          )}
         </article>
       ))
     }

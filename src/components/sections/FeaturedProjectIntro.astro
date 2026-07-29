@@ -4,6 +4,7 @@ import featureGraphic from '../../assets/images/cyprus/cover/cyprus-feature-grap
 import { cyprusImageAssets } from '../../data/cyprus-assets';
 import { featuredProject } from '../../data/project';
 import Metric from '../ui/Metric.astro';
+import ExternalLink from '../ui/ExternalLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
 
 const assetCount = Object.keys(cyprusImageAssets).length + 1;
@@ -22,6 +23,19 @@ const assetCount = Object.keys(cyprusImageAssets).length + 1;
       id="project-heading"
     />
     <p class="project__technology">{featuredProject.technology}</p>
+    <div class="project__actions external-links">
+      <ExternalLink
+        href={featuredProject.googlePlayUrl}
+        label="Google Play"
+        ariaLabel="View Cyprus Step-by-Step on Google Play in a new tab"
+        analyticsEvent="product-link-click"
+        analyticsData={{
+          product: 'cyprus-step-by-step',
+          destination: 'google-play',
+          placement: 'project-intro',
+        }}
+      />
+    </div>
     <p class="project__description">{featuredProject.description}</p>
     <p>{featuredProject.audience}</p>
   </div>
