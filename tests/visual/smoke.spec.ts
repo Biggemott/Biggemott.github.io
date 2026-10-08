@@ -1,6 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
 import {
   expectNoHorizontalOverflow,
   expectVisible,
@@ -85,7 +83,6 @@ test('Umami tracker and declarative event attributes are production-safe', async
         .filter((src) =>
           prohibitedProviderPatterns.some((pattern) => pattern.test(src)),
         ),
-      cvEvents: analyticsLinks.filter((link) => link.event === 'file-download'),
       contactEvents: analyticsLinks.filter(
         (link) => link.event === 'contact-click',
       ),
@@ -113,35 +110,15 @@ test('Umami tracker and declarative event attributes are production-safe', async
   });
 
   expect(analyticsAudit.otherAnalyticsProviders).toEqual([]);
-  expect(analyticsAudit.cvEvents).toEqual([
-    {
-      event: 'file-download',
-      properties: [
-        'data-umami-event-file=Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
-        'data-umami-event-placement=hero',
-      ],
-    },
-    {
-      event: 'file-download',
-      properties: [
-        'data-umami-event-file=Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
-        'data-umami-event-placement=contact',
-      ],
-    },
-  ]);
-  expect(analyticsAudit.contactEvents).toHaveLength(7);
+  expect(analyticsAudit.contactEvents).toHaveLength(4);
   expect(
     analyticsAudit.contactEvents.every(({ properties }) => {
       const values = Object.fromEntries(
         properties.map((property) => property.split('=')),
       );
       return (
-        ['email', 'linkedin', 'telegram'].includes(
-          values['data-umami-event-channel'],
-        ) &&
-        ['hero', 'contact', 'footer'].includes(
-          values['data-umami-event-placement'],
-        )
+        ['email', 'telegram'].includes(values['data-umami-event-channel']) &&
+        ['contact', 'footer'].includes(values['data-umami-event-placement'])
       );
     }),
   ).toBeTruthy();
@@ -232,9 +209,7 @@ test('Umami tracker and declarative event attributes are production-safe', async
     },
   ]);
   expect(analyticsAudit.eventProperties).not.toContainEqual(
-    expect.stringMatching(
-      /@|mailto:|linkedin\.com|t\.me|biggemott@gmail\.com|https?:\/\//i,
-    ),
+    expect.stringMatching(/@|mailto:|t\.me|biggemott@gmail\.com|https?:\/\//i),
   );
 });
 
@@ -691,43 +666,6 @@ test('production metadata and discovery files are complete', async ({
   expect(await page.content()).not.toContain('astro-icon');
 });
 
-test('CV download is published once in Hero and Contact', async ({
-  page,
-  baseURL,
-}) => {
-  const cvPath = '/Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf';
-  const cvFilename = 'Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf';
-  const cvAriaLabel = "Download Nikita Glazkov's CV as PDF";
-  const response = await page.request.get(cvPath);
-
-  expect(response.ok()).toBeTruthy();
-  expect(response.headers()['content-type']).toMatch(/application\/pdf/i);
-  expect((await response.body()).byteLength).toBeGreaterThan(0);
-
-  await page.goto(baseURL!, { waitUntil: 'networkidle' });
-  const heroLink = page.locator('#hero a', { hasText: 'Download CV' });
-  const contactLink = page.locator('#contact a', { hasText: 'Download PDF' });
-  await expect(heroLink).toHaveCount(1);
-  await expect(contactLink).toHaveCount(1);
-  for (const link of [heroLink, contactLink]) {
-    await expect(link).toHaveAttribute('href', cvPath);
-    await expect(link).toHaveAttribute('download', cvFilename);
-    await expect(link).not.toHaveAttribute('target', '_blank');
-    await expect(link).toHaveAttribute('aria-label', cvAriaLabel);
-  }
-  await expect(page.locator('header a', { hasText: /CV/i })).toHaveCount(0);
-  await expect(page.locator('footer a', { hasText: /CV/i })).toHaveCount(0);
-  await expect(page.locator('a[href$=".docx" i]')).toHaveCount(0);
-  expect(cvPath.startsWith('/')).toBeTruthy();
-
-  for (const directory of ['public', 'dist']) {
-    const files = await fs.readdir(path.join(process.cwd(), directory));
-    expect(
-      files.some((file) => file.toLowerCase().endsWith('.docx')),
-    ).toBeFalsy();
-  }
-});
-
 for (const viewport of viewports) {
   test(`responsive smoke check at ${viewport.width}x${viewport.height}`, async ({
     page,
@@ -753,7 +691,7 @@ for (const viewport of viewports) {
     });
     const response = await page.goto(baseURL!, { waitUntil: 'networkidle' });
     expect(response?.ok()).toBeTruthy();
-    await expect(page.locator('img[loading="lazy"]')).toHaveCount(14);
+    await expect(page.locator('img[loading="lazy"]')).toHaveCount(15);
     await preparePage(page);
     await expectNoHorizontalOverflow(page);
     expect(consoleErrors).toEqual([]);
@@ -814,11 +752,10 @@ for (const viewport of viewports) {
     await expect(
       page.locator('.hero__actions a', { hasText: 'Contact' }),
     ).toHaveAttribute('href', '#contact');
-    const heroLinkedIn = page.locator('.hero__actions a', {
-      hasText: 'LinkedIn',
-    });
-    await expect(heroLinkedIn).toHaveAttribute('target', '_blank');
-    await expect(heroLinkedIn).toHaveAttribute('rel', 'noreferrer noopener');
+    await expect(page.locator('.hero__actions a')).toHaveText([
+      'View featured project',
+      'Contact',
+    ]);
     await expect(page.locator('.hero__location')).toContainText(
       'On-site in Cyprus',
     );
@@ -831,24 +768,20 @@ for (const viewport of viewports) {
 
     const email = page.locator('.contact__email');
     await expect(email).toHaveAttribute('href', 'mailto:biggemott@gmail.com');
-    for (const [label, href] of [
-      ['LinkedIn', 'https://linkedin.com/in/nikita-glazkov-3b1019144/'],
-      ['Telegram', 'https://t.me/Biggemot'],
-    ] as const) {
-      const method = page.locator('.contact__method', { hasText: label });
-      await expect(method).toContainText('Open profile');
-      const action = method.locator('a');
-      await expect(action).toHaveAttribute('href', href);
-      await expect(action).toHaveAttribute('target', '_blank');
-      await expect(action).toHaveAttribute('rel', 'noreferrer noopener');
-    }
-    const footer = page.locator('footer');
-    const footerLinkedIn = footer.locator(
-      'a[href="https://linkedin.com/in/nikita-glazkov-3b1019144/"]',
+    await expect(page.locator('.contact__method dt')).toHaveText([
+      'Email',
+      'Telegram',
+    ]);
+    const telegram = page.locator('.contact__method', { hasText: 'Telegram' });
+    await expect(telegram).toContainText('Open profile');
+    const telegramAction = telegram.locator('a');
+    await expect(telegramAction).toHaveAttribute(
+      'href',
+      'https://t.me/Biggemot',
     );
-    await expect(footerLinkedIn).toBeVisible();
-    await expect(footerLinkedIn).toHaveAttribute('target', '_blank');
-    await expect(footerLinkedIn).toHaveAttribute('rel', 'noreferrer noopener');
+    await expect(telegramAction).toHaveAttribute('target', '_blank');
+    await expect(telegramAction).toHaveAttribute('rel', 'noreferrer noopener');
+    const footer = page.locator('footer');
     const footerEmail = footer.getByRole('link', { name: 'Email' });
     await expect(footerEmail).toHaveAttribute(
       'href',

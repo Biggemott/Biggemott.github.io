@@ -35,26 +35,7 @@ const summaryCards = [
         analyticsEvent="featured-project-click"
         analyticsData={{ placement: 'hero' }}>View featured project</ButtonLink
       >
-      <ButtonLink
-        href={site.contact.linkedin.url}
-        variant="secondary"
-        external
-        analyticsEvent="contact-click"
-        analyticsData={{ channel: 'linkedin', placement: 'hero' }}
-        >LinkedIn</ButtonLink
-      >
       <ButtonLink href="#contact" variant="secondary">Contact</ButtonLink>
-      <ButtonLink
-        href={site.contact.cvPath}
-        variant="secondary"
-        download={site.contact.cvDownloadFilename}
-        ariaLabel={site.contact.cvAriaLabel}
-        analyticsEvent="file-download"
-        analyticsData={{
-          file: site.contact.cvDownloadFilename,
-          placement: 'hero',
-        }}>Download CV</ButtonLink
-      >
     </div>
   </div>
   <div class="hero__cards" aria-label="Career summary">

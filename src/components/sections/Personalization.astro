@@ -29,7 +29,10 @@ import SectionHeading from '../ui/SectionHeading.astro';
         <div
           class:list={[
             'personalization__metric',
-            { 'personalization__metric--primary': value === '682' },
+            {
+              'personalization__metric--primary':
+                label === 'distinct checklist outcomes',
+            },
           ]}
         >
           <strong>{value}</strong>

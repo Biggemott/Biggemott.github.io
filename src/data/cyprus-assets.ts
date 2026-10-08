@@ -1,4 +1,5 @@
 import featureCompletedChecklist from '../assets/images/cyprus/features/feature-completed-checklist.png';
+import featureKeyDatesCalendar from '../assets/images/cyprus/features/feature-key-dates-calendar.png';
 import featureScheduledReminder from '../assets/images/cyprus/features/feature-scheduled-reminder.png';
 import featureSearchResults from '../assets/images/cyprus/features/feature-search-results.png';
 import flowGeneratedChecklist from '../assets/images/cyprus/flow/flow-generated-checklist.png';
@@ -16,6 +17,7 @@ import homeIosEn from '../assets/images/cyprus/platform/home-ios-en.png';
  */
 export const cyprusImageAssets = {
   featureCompletedChecklist,
+  featureKeyDatesCalendar,
   featureScheduledReminder,
   featureSearchResults,
   flowGeneratedChecklist,

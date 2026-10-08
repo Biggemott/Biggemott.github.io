@@ -84,16 +84,16 @@ export const featuredProject = {
   audience:
     'Designed primarily for expatriates, international professionals and families moving to or living in Cyprus.',
   scope:
-    'The first release covers eight areas of life in Cyprus, including relocation, transport, taxation, healthcare, housing, family, work and everyday life.',
+    'The app covers eight areas of life in Cyprus, including relocation, transport, taxation, healthcare, housing, family, work and everyday life, and adds a calendar of public holidays and administrative deadlines.',
   ownership:
     'I independently took the product from concept and domain research through Kotlin Multiplatform development, testing and a public Google Play release.',
   googlePlayUrl:
     'https://play.google.com/store/apps/details?id=com.cyprussteps.app',
   metrics: [
     ['18', 'guided procedures'],
-    ['209', 'actionable steps'],
+    ['218', 'actionable steps'],
     ['3', 'languages'],
-    ['55', 'source links'],
+    ['91', 'source links'],
   ],
 } as const;
 
@@ -181,9 +181,9 @@ export const personalization = {
     'The same First steps after arrival procedure produces different guidance for different answers.',
   metrics: [
     ['51', 'questionnaire questions'],
-    ['177', 'atomic branching conditions'],
-    ['114', 'conditional steps'],
-    ['682', 'distinct checklist outcomes'],
+    ['237', 'atomic branching conditions'],
+    ['135', 'conditional steps'],
+    ['707', 'distinct checklist outcomes'],
   ],
   supportingLine:
     'A shared data-driven rules model keeps outcomes deterministic while allowing new procedures to be added as structured content.',
@@ -214,7 +214,7 @@ export const crossPlatformLocalization = {
     },
   ] satisfies readonly NativePlatformBoundary[],
   validationNote:
-    'The shared iOS target has been validated in the simulator across UI, navigation, local storage and reminder workflows.',
+    'The iOS app has been validated in the simulator and through TestFlight across UI, navigation, local storage and reminder workflows.',
   platformExamples: [
     {
       label: 'Android',
@@ -259,7 +259,7 @@ export const crossPlatformLocalization = {
 
 export const productCompleteness = {
   intro:
-    'Procedures can take days or weeks. The app supports multiple scenarios, persistent progress, search and local reminders.',
+    'Procedures can take days or weeks, and many obligations follow fixed deadlines. The app supports multiple scenarios, persistent progress, search, local reminders and a calendar of key dates.',
   examples: [
     {
       title: 'Find the right guidance',
@@ -281,6 +281,13 @@ export const productCompleteness = {
         'Local reminders bring users back to time-sensitive steps without requiring registration or a remote account.',
       image: 'featureScheduledReminder',
       alt: 'A scheduled local reminder for a checklist step in Cyprus Step-by-Step.',
+    },
+    {
+      title: 'Stay ahead of deadlines',
+      description:
+        'A calendar of public holidays and administrative deadlines, with optional reminders a week before each deadline.',
+      image: 'featureKeyDatesCalendar',
+      alt: 'The Key Dates calendar with public holidays and tax and social insurance deadlines in Cyprus Step-by-Step.',
     },
   ] satisfies readonly CompletenessExample[],
   supportingLine:
@@ -376,7 +383,7 @@ export const qualityWorkflow = {
     {
       title: 'Automated product logic',
       description:
-        'Around 40 test files exercise shared parsing, questionnaire and checklist behavior, persistence and workflow logic.',
+        'About 140 test files exercise shared parsing, questionnaire and checklist behavior, persistence, reminders, key dates and workflow logic.',
     },
     {
       title: 'Android device validation',
@@ -384,9 +391,9 @@ export const qualityWorkflow = {
         'Core flows, navigation, local persistence and reminders were manually exercised on a physical Android device.',
     },
     {
-      title: 'iOS simulator validation',
+      title: 'iOS validation',
       description:
-        'The native shell, shared Compose experience and navigation were checked in the iOS simulator.',
+        'The native shell, shared Compose experience and navigation were checked in the iOS simulator and through TestFlight builds.',
     },
     {
       title: 'Content and localization review',
@@ -424,7 +431,7 @@ export const qualityWorkflow = {
 
 export const releaseStatus = {
   intro:
-    'Cyprus Step-by-Step is publicly available on Google Play. The shared Kotlin Multiplatform product and native iOS shell are ready for final physical-device validation and release preparation.',
+    'Cyprus Step-by-Step is publicly available on Google Play, now at version 2.1.0. The same shared Kotlin Multiplatform product has been submitted to the App Store and is in review.',
   platforms: [
     {
       platform: 'Android',
@@ -443,13 +450,13 @@ export const releaseStatus = {
     },
     {
       platform: 'iOS',
-      label: 'Ready for final validation',
+      label: 'In App Store review',
       description:
-        'The native SwiftUI shell and shared Compose experience were validated in the iOS simulator. Next steps are final physical-device validation and platform release preparation.',
+        'Version 2.1.0 has been submitted to the App Store. It ships the same shared Kotlin Multiplatform product inside a native SwiftUI shell with iOS-style navigation.',
       facts: [
         'Native iOS application shell',
-        'Shared Compose experience validated',
-        'Final platform validation next',
+        'TestFlight builds',
+        'Submitted to App Store review',
       ],
     },
   ] satisfies readonly PlatformReleaseStatus[],

@@ -12,14 +12,6 @@ import ExternalLink from '../ui/ExternalLink.astro';
       </p>
     </div>
     <nav aria-label="Footer links">
-      <ExternalLink
-        href={site.contact.linkedin.url}
-        label={site.contact.linkedin.label}
-        ariaLabel={site.contact.linkedin.ariaLabel}
-        variant="context"
-        analyticsEvent="contact-click"
-        analyticsData={{ channel: 'linkedin', placement: 'footer' }}
-      />
       <a
         class="external-link external-link--context"
         href={`mailto:${site.contact.email}`}

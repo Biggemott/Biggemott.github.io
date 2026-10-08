@@ -9,14 +9,6 @@ export const site = {
   },
   contact: {
     email: 'biggemott@gmail.com',
-    cvPath: '/Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
-    cvDownloadFilename: 'Nikita-Glazkov-Senior-Lead-Android-Engineer-CV.pdf',
-    cvAriaLabel: "Download Nikita Glazkov's CV as PDF",
-    linkedin: {
-      url: 'https://linkedin.com/in/nikita-glazkov-3b1019144/',
-      label: 'LinkedIn',
-      ariaLabel: "Open Nikita Glazkov's LinkedIn profile in a new tab",
-    },
     telegram: {
       url: 'https://t.me/Biggemot',
       label: 'Telegram',

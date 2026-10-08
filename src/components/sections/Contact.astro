@@ -2,12 +2,6 @@
 import { profile, site } from '../../data/site';
 import ExternalLink from '../ui/ExternalLink.astro';
 import SectionHeading from '../ui/SectionHeading.astro';
-
-const cvAnalyticsAttributes = {
-  'data-umami-event': 'file-download',
-  'data-umami-event-file': site.contact.cvDownloadFilename,
-  'data-umami-event-placement': 'contact',
-};
 ---
 
 <section class="contact section" id="contact" aria-labelledby="contact-heading">
@@ -35,18 +29,6 @@ const cvAnalyticsAttributes = {
           </dd>
         </div>
         <div class="contact__method">
-          <dt>LinkedIn</dt>
-          <dd>
-            <ExternalLink
-              href={site.contact.linkedin.url}
-              label="Open profile"
-              ariaLabel={site.contact.linkedin.ariaLabel}
-              analyticsEvent="contact-click"
-              analyticsData={{ channel: 'linkedin', placement: 'contact' }}
-            />
-          </dd>
-        </div>
-        <div class="contact__method">
           <dt>Telegram</dt>
           <dd>
             <ExternalLink
@@ -56,18 +38,6 @@ const cvAnalyticsAttributes = {
               analyticsEvent="contact-click"
               analyticsData={{ channel: 'telegram', placement: 'contact' }}
             />
-          </dd>
-        </div>
-        <div class="contact__method">
-          <dt>CV</dt>
-          <dd>
-            <a
-              class="contact__download"
-              href={site.contact.cvPath}
-              download={site.contact.cvDownloadFilename}
-              aria-label={site.contact.cvAriaLabel}
-              {...cvAnalyticsAttributes}>Download PDF</a
-            >
           </dd>
         </div>
       </dl>
